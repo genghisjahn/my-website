@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Example Article • Sidebar Meta</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Compact sidebar for meta, clean content column.">
+  <link rel="canonical" href="https://example.com/articles/sidebar-article">
+  <style>
+    :root{--bg:#f8fafc;--fg:#0f172a;--muted:#475569;--accent:#10b981;--max:80rem}
+    html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial}
+    .wrap{max-width:var(--max);margin:auto;padding:clamp(12px,2vw,20px)}
+    .grid{display:grid;gap:20px}
+    @media(min-width:860px){ .grid{grid-template-columns:260px 1fr} }
+    aside{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;position:sticky;top:12px;height:fit-content}
+    aside h2{margin:0 0 8px;font-size:1rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+    .meta{margin:0 0 10px;font-size:.95rem}
+    .meta time{color:var(--muted)}
+    .tags{display:flex;flex-wrap:wrap;gap:8px}
+    .tag{background:#ecfeff;border:1px solid #99f6e4;color:#065f46;text-decoration:none;padding:.25rem .5rem;border-radius:999px;font-size:.85rem}
+    article{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:clamp(16px,2vw,28px)}
+    article h1{margin:.2rem 0 1rem;font-size:clamp(1.6rem,3vw,2.2rem)}
+    article p{margin:0 0 1em}
+    footer{margin-top:20px;color:var(--muted);font-size:.9rem}
+    @media (prefers-color-scheme: dark){
+      :root{--bg:#0b1220;--fg:#e5e7eb;--muted:#9aa4b2}
+      aside,article{background:#0f172a;border-color:#1f2937}
+      .tag{background:#0b3a32;border-color:#134e4a;color:#d1fae5}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap grid">
+    <aside>
+      <h2>Article</h2>
+      <p class="meta">By <a href="/about.html">Author Name</a></p>
+      <p class="meta"><time datetime="2025-08-14">August 14, 2025</time></p>
+      <div class="tags" aria-label="Tags">
+        <a class="tag" href="/tag/css.html">css</a>
+        <a class="tag" href="/tag/ux.html">ux</a>
+        <a class="tag" href="/tag/mobile.html">mobile</a>
+      </div>
+    </aside>
+
+    <main>
+      <article>
+        <h1>Theme Three: Sidebar Metadata</h1>
+        <p>Meta sits in a sticky sidebar on larger screens. On mobile it stacks.</p>
+        <p>Keep pages independent. Each file owns its CSS to guarantee unique looks.</p>
+      </article>
+
+      <footer>
+        <a href="/">Home</a> · <a href="/archive/">Archive</a>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

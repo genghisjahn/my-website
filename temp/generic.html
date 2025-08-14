@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The Eastwood Ledger • Special Edition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Old-time newspaper layout. Mobile-first, readable, single file with inline CSS.">
+<style>
+:root{
+  --bg:#0a1d3a; --surface:#0f2a56; --fg:#e8f0ff; --muted:#9fb4d9;
+  --line:#dfe9ff; --accent:#66ccff; --grid:#12305e; --max:72ch;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg)}
+body{font:16px/1.8 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace}
+.wrap{
+  max-width:var(--max);margin:auto;padding:clamp(16px,3vw,28px);
+  background:
+    linear-gradient(0deg, transparent 31px, rgba(255,255,255,.06) 31px, rgba(255,255,255,.06) 32px, transparent 32px) 0 0/100% 32px,
+    linear-gradient(90deg, transparent 31px, rgba(255,255,255,.06) 31px, rgba(255,255,255,.06) 32px, transparent 32px) 0 0/32px 100%,
+    linear-gradient(#0c244a,#0c244a)
+}
+
+/* Title block */
+header,.mast{
+  background:linear-gradient(180deg,#102d5c,#0e2a55);
+  border:1.5px solid var(--line); border-radius:10px; padding:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.35)
+}
+.name{letter-spacing:.12em;text-transform:uppercase}
+.dateline,.byline{color:var(--muted);font-size:.93rem}
+.kicker{color:var(--accent);letter-spacing:.18em;text-transform:uppercase;font-size:.8rem}
+
+/* Headline */
+h1{
+  margin:.2rem 0 .6rem;line-height:1.15;font-size:clamp(1.6rem,4vw,2.4rem);
+  text-transform:uppercase;letter-spacing:.04em
+}
+
+/* Article body */
+article{
+  background:var(--surface);
+  border:1.5px solid var(--line);
+  border-radius:10px;
+  padding:clamp(16px,2.5vw,28px);
+  hyphens:auto;
+  box-shadow:0 0 0 3px #0a1f41 inset;
+}
+article p{margin:0 0 1em}
+
+/* Spec callouts */
+.badge{
+  display:inline-block;border:1.5px solid var(--line);border-radius:4px;
+  padding:.15rem .45rem;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase
+}
+.panel{
+  background:#0b2146;border:1.5px dashed var(--line);
+  padding:.7rem .9rem;border-radius:8px;margin:1rem 0
+}
+
+/* Construction line */
+.rule{height:2px;background:repeating-linear-gradient(90deg,var(--line) 0 14px, transparent 14px 24px);margin:14px 0}
+
+/* Tags and links */
+.tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.tag{
+  font-size:.85rem;border:1.5px solid var(--line);border-radius:2px;
+  padding:.25rem .5rem;text-decoration:none;color:var(--fg);background:#0b2146;
+  box-shadow:0 0 0 2px #081a34 inset
+}
+a{color:var(--accent)}
+footer{margin-top:18px;color:var(--muted);font-size:.95rem;text-align:center}
+
+/* Light mode blueprint */
+@media (prefers-color-scheme: light){
+  :root{
+    --bg:#f4f8ff; --surface:#ffffff; --fg:#0f1a2e; --muted:#475569;
+    --line:#3b82f6; --accent:#0ea5e9; --grid:#dbeafe;
+  }
+  .wrap{
+    background:
+      linear-gradient(0deg, transparent 31px, #e6eefc 31px, #e6eefc 32px, transparent 32px) 0 0/100% 32px,
+      linear-gradient(90deg, transparent 31px, #e6eefc 31px, #e6eefc 32px, transparent 32px) 0 0/32px 100%,
+      linear-gradient(#fff,#fff)
+  }
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="mast">
+      <div class="name">The Eastwood Ledger</div>
+      <div class="dateline">
+        Philadelphia, Pennsylvania · <time datetime="2025-08-14">Thursday, August 14, 2025</time>
+      </div>
+      <p class="strap">Independent reports on technology, craft, and quiet progress</p>
+    </header>
+
+    <main>
+      <p class="kicker">Front Page</p>
+      <h1>Small Files, Swift Pages: The Case for Hand-Built Sites</h1>
+      <p class="byline">By <a href="/about.html">Author Name</a></p>
+
+      <div class="rule" aria-hidden="true"></div>
+      <article>
+        <p>Speed favors the humble page. A single HTML file, a whisper of CSS, and a browser does the rest. The result reads well on a phone and wastes no battery.</p>
+        <p>Each story owns its style. No shared bundle. No fragile theme. You compile tag lists and monthly archives at build time so every link lands on a static file.</p>
+
+        <blockquote class="pull">“Type first. Effects later. If it hurts the reading, it isn’t design.”</blockquote>
+
+        <p>Typography does the heavy lifting. Keep the line length near 60–70 characters. Use generous line height. Let hyphenation help justification on wider screens.</p>
+
+        <figure>
+          <img src="/images/linotype.jpg" alt="Compositor working at a linotype machine">
+          <figcaption>Linotype once sped newspapers. Today, clean HTML plays that role.</figcaption>
+        </figure>
+
+        <p>A page like this degrades gracefully. Old browsers ignore niceties like columns and small caps. The copy still reads cleanly in one column on mobile.</p>
+      </article>
+
+      <nav class="tags" aria-label="Tags">
+        <a class="tag" href="/tag/design.html">design</a>
+        <a class="tag" href="/tag/typography.html">typography</a>
+        <a class="tag" href="/tag/static.html">static</a>
+      </nav>
+
+      <footer>
+        <a href="/">Home</a> · <a href="/archive/2025/08/">Aug 2025 archive</a>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

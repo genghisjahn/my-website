@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Signal Lost • Retro Sci-Fi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A retro sci-fi article layout with CRT vibes and neon accents.">
+  <style>
+    :root{
+      --bg:#0a0e1a; --panel:#0f1326; --fg:#d7eaff; --muted:#9fb1d6;
+      --cyan:#00fff0; --mag:#ff34d2; --grid:#10152b; --max:70ch;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    .wrap{max-width:var(--max);margin:auto;padding:clamp(16px,3vw,28px)}
+    .crt{
+      position:relative;border:1px solid #20284a;border-radius:14px;
+      background:linear-gradient(180deg,#0b1030 0%,#0a0e1a 100%);
+      overflow:hidden;box-shadow:0 0 0 2px #0b1030, 0 20px 60px rgba(0,0,0,.6);
+    }
+    /* grid + scanlines */
+    .crt::before{
+      content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;
+      background:
+        repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0 1px, transparent 1px 3px),
+        repeating-linear-gradient(90deg, rgba(0,255,240,.045) 0 2px, rgba(255,52,210,.045) 2px 4px, rgba(215,234,255,.03) 4px 6px);
+    }
+    header{padding:28px 22px 10px;background:
+      radial-gradient(1200px 300px at 10% -20%, rgba(0,255,240,.22), transparent 60%),
+      radial-gradient(900px 260px at 100% -10%, rgba(255,52,210,.18), transparent 60%)}
+    h1{
+      margin:0 0 6px;font-size:clamp(1.6rem,4vw,2.4rem);line-height:1.1;
+      text-shadow:0 0 6px rgba(0,255,240,.35), 0 0 18px rgba(255,52,210,.25);
+      letter-spacing:.02em;
+    }
+    .byline{color:var(--muted);font-size:.95rem;margin:0 0 16px}
+    .byline a{color:var(--fg);text-decoration:none;border-bottom:1px dotted currentColor}
+    article{padding:16px 22px 24px}
+    article p{margin:0 0 1em}
+    .panel{
+      background:var(--panel);border:1px solid #1a234a;border-radius:10px;padding:14px 16px;margin:12px 0;
+      box-shadow:inset 0 0 0 1px #1a234a, 0 6px 20px rgba(0,0,0,.4);
+    }
+    .meter{height:8px;background:#091025;border-radius:999px;overflow:hidden}
+    .meter>span{display:block;height:100%;width:62%;
+      background:linear-gradient(90deg,var(--cyan),var(--mag))}
+    .tags{display:flex;flex-wrap:wrap;gap:10px;padding:0 22px 22px}
+    .tag{font-size:.85rem;padding:.35rem .65rem;border-radius:999px;
+      color:#031321;text-decoration:none;background:linear-gradient(90deg,var(--cyan),var(--mag));
+      box-shadow:0 0 20px rgba(0,255,240,.25);
+    }
+    footer{padding:14px 22px 22px;border-top:1px solid #131a39;color:var(--muted);font-size:.9rem}
+    a{color:var(--cyan)}
+    @media (prefers-color-scheme: light){
+      :root{--fg:#0a1020;--bg:#f6f9ff;--panel:#eaf2ff;--muted:#3a4a72}
+      .crt{box-shadow:0 0 0 2px #cfe3ff, 0 20px 60px rgba(0,20,80,.15)}
+      header{text-shadow:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="crt">
+      <header>
+        <h1>Signal Lost on Deck 7</h1>
+        <p class="byline">
+          By <a href="/about.html">Author Name</a> ·
+          <time datetime="2025-08-14">August 14, 2025</time>
+        </p>
+      </header>
+
+      <article>
+        <p>The relay goes silent at 03:17 ship time. Diagnostics show green. The corridor shows empty. We walk.</p>
+        <div class="panel">
+          <strong>Day of Year:</strong>
+          <div class="meter" aria-label="Day of Year"><span id="dayOfYearBar"></span></div>
+          <div id="dayOfYearText" style="margin-top:6px;font-size:.9rem;color:var(--muted)"></div>
+          <script>
+            (function(){
+              const now = new Date();
+              const start = new Date(now.getFullYear(), 0, 0);
+              const diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
+              const oneDay = 1000 * 60 * 60 * 24;
+              const day = Math.floor(diff / oneDay);
+              const isLeap = (new Date(now.getFullYear(), 1, 29).getMonth() === 1);
+              const maxDays = isLeap ? 366 : 365;
+              const pct = (day / maxDays) * 100;
+              document.getElementById('dayOfYearBar').style.width = pct + '%';
+              document.getElementById('dayOfYearBar').style.background = 'linear-gradient(90deg,var(--cyan),var(--mag))';
+              document.getElementById('dayOfYearText').textContent = `Day ${day} of ${maxDays}`;
+            })();
+          </script>
+        </div>
+        <div class="panel">
+          <strong>Daylight Left:</strong>
+          <div class="meter"><span id="daylightLeftBar"></span></div>
+          <div id="daylightLeftText" style="margin-top:6px;font-size:.9rem;color:var(--muted)"></div>
+        </div>
+        <div class="panel">
+          <strong>Day Length:</strong>
+          <div class="meter"><span id="dayLengthBar"></span></div>
+          <div id="dayLengthText" style="margin-top:6px;font-size:.9rem;color:var(--muted)"></div>
+        </div>
+        <div class="panel">
+          <strong>Lunar Phase:</strong>
+          <div class="meter"><span id="lunarPhaseBar"></span></div>
+          <div id="lunarPhaseText" style="margin-top:6px;font-size:.9rem;color:var(--muted)"></div>
+        </div>
+        <script>
+        (function(){
+          const now = new Date();
+          // Sunrise at 6:00, Sunset at 18:00 local time
+          const sunrise = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 6, 0, 0);
+          const sunset = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0);
+          const daylightTotal = sunset - sunrise;
+          const daylightLeft = Math.max(0, sunset - now);
+          const pctLeft = (daylightLeft / daylightTotal) * 100;
+          document.getElementById('daylightLeftBar').style.width = pctLeft + '%';
+          document.getElementById('daylightLeftBar').style.background = 'linear-gradient(90deg,var(--cyan),var(--mag))';
+          const hrsLeft = Math.floor(daylightLeft/36e5);
+          const minsLeft = Math.floor((daylightLeft%36e5)/6e4);
+          document.getElementById('daylightLeftText').textContent = `${hrsLeft}h ${minsLeft}m remaining`;
+
+          const pctDayLength = (daylightTotal / (24*36e5)) * 100;
+          document.getElementById('dayLengthBar').style.width = pctDayLength + '%';
+          document.getElementById('dayLengthBar').style.background = 'linear-gradient(90deg,var(--cyan),var(--mag))';
+          document.getElementById('dayLengthText').textContent = `${(daylightTotal/36e5).toFixed(1)} hours`;
+
+          const synodicMonth = 29.53058867;
+          const knownNewMoon = new Date('2025-01-29T12:00:00Z');
+          const daysSince = (now - knownNewMoon) / 86400000;
+          const currentPhase = (daysSince % synodicMonth) / synodicMonth;
+          const illumination = Math.round(currentPhase <= 0.5 ? currentPhase*2*100 : (1-currentPhase)*2*100);
+          document.getElementById('lunarPhaseBar').style.width = illumination + '%';
+          document.getElementById('lunarPhaseBar').style.background = 'linear-gradient(90deg,var(--cyan),var(--mag))';
+          document.getElementById('lunarPhaseText').textContent = `${illumination}% illuminated`;
+        })();
+        </script>
+        <p>Simple rule: small pages, local CSS, zero dependencies. Each file owns its theme. Build time creates tag and archive pages.</p>
+        <p>We leave breadcrumbs in the markup. Tags route to static lists. No server required.</p>
+      </article>
+
+      <nav class="tags" aria-label="Tags">
+        <a class="tag" href="/tag/sci-fi.html">sci-fi</a>
+        <a class="tag" href="/tag/retro.html">retro</a>
+        <a class="tag" href="/tag/static.html">static</a>
+      </nav>
+
+      <footer>
+        <a href="/">Home</a> · <a href="/archive/2025/08/">Aug 2025 archive</a>
+      </footer>
+    </div>
+  </div>
+</body>
+</html>

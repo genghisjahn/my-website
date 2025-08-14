@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The Torch at Dawn • Retro Game Fantasy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An 8-bit RPG-style article with pixel borders and parchment tones.">
+  <style>
+    :root{
+      --bg:#1a120a; --card:#24160d; --ink:#f5e6c8; --muted:#cbbd9e; --accent:#f0c674; --edge:#7a532b;
+      --max:74ch;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+    .wrap{max-width:var(--max);margin:auto;padding:clamp(14px,3vw,28px)}
+    .card{
+      background:linear-gradient(#2a1a10,#21150d);
+      position:relative;padding:18px;border-radius:0; color:var(--ink);
+      box-shadow:
+        0 0 0 3px var(--edge),
+        0 0 0 6px #000,
+        0 10px 0 0 #000,
+        0 10px 0 3px var(--edge);
+    }
+    /* pixel corners */
+    .card::before,.card::after{
+      content:"";position:absolute;width:10px;height:10px;background:var(--edge);top:-3px
+    }
+    .card::before{left:-3px;box-shadow: 0 6px 0 #000}
+    .card::after{right:-3px;box-shadow: 0 6px 0 #000}
+    header{padding:6px 6px 12px;border-bottom:2px solid #000}
+    h1{margin:.2rem 0 .4rem;font-size:clamp(1.5rem,4vw,2.2rem);letter-spacing:.02em}
+    .status{
+      display:flex;gap:12px;flex-wrap:wrap;font-size:.95rem;color:var(--muted)
+    }
+    .status .chip{
+      background:#000; padding:.25rem .5rem; border:2px solid var(--edge);
+      box-shadow:4px 4px 0 #000; font-weight:600
+    }
+    .body{padding:12px 6px}
+    .body p{margin:0 0 1em}
+    .body p:first-of-type::first-letter{
+      background:var(--accent);color:#1a120a;border:2px solid #000;box-shadow:3px 3px 0 #000;
+      padding:.15rem .35rem;margin:.1rem .35rem .1rem 0;float:left;line-height:1;font-weight:900
+    }
+    .rule{height:2px;background:repeating-linear-gradient(90deg,var(--edge) 0 8px, #000 8px 12px);margin:14px 0}
+    .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+    .tag{
+      font-size:.85rem;background:var(--accent);color:#1a120a;text-decoration:none;
+      border:2px solid #000; box-shadow:3px 3px 0 #000; padding:.3rem .6rem
+    }
+    footer{margin-top:16px;color:var(--muted);font-size:.9rem}
+    a{color:var(--accent)}
+    @media (prefers-color-scheme: light){
+      :root{--bg:#efe7da;--card:#fff7e6;--ink:#2a1f12;--muted:#70593d}
+      .card{background:linear-gradient(#fff3d9,#ffeac1);box-shadow:0 0 0 3px #b38b5a,0 0 0 6px #6d4c2f,0 10px 0 0 #6d4c2f,0 10px 0 3px #b38b5a}
+      .card::before,.card::after{background:#b38b5a}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="card">
+      <header>
+        <h1>The Torch at Dawn</h1>
+        <div class="status">
+          <span class="chip">Author: <a href="/about.html" style="color:inherit;text-decoration:underline">Author Name</a></span>
+          <span class="chip"><time datetime="2025-08-14">Aug 14, 2025</time></span>
+        </div>
+      </header>
+
+      <div class="body">
+        <div class="rule" aria-hidden="true"></div>
+        <p>The gate creaks. A thin light spills across the cobbles. You raise the torch, read the carvings, and choose the left path.</p>
+        <p>Site rules stay simple: static files, per-page CSS, fast loads. Build scripts mint tag lists and archives. No framework needed.</p>
+      </div>
+
+      <nav class="tags" aria-label="Tags">
+        <a class="tag" href="/tag/fantasy.html">fantasy</a>
+        <a class="tag" href="/tag/retro.html">retro</a>
+        <a class="tag" href="/tag/rpg.html">rpg</a>
+      </nav>
+
+      <footer>
+        <a href="/">Home</a> · <a href="/archive/2025/08/">Aug 2025 archive</a>
+      </footer>
+    </section>
+  </div>
+</body>
+</html>

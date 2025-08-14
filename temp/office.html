@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The Eastwood Ledger • Special Edition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Old-time newspaper layout. Mobile-first, readable, single file with inline CSS.">
+  <style>
+:root{
+  --bg:#f6f8fb; --surface:#ffffff; --fg:#0f172a; --muted:#64748b; --accent:#2563eb;
+  --max:72ch;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg)}
+body{font:16px/1.7 Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial}
+.wrap{max-width:var(--max);margin:auto;padding:clamp(16px,3vw,28px)}
+header, .mast{background:linear-gradient(180deg,#ffffff, #f2f6ff);border:1px solid #e5eaf3;border-radius:12px;padding:18px}
+h1{margin:.2rem 0 .4rem;line-height:1.2;font-size:clamp(1.6rem,4vw,2.4rem)}
+.byline,.dateline{color:var(--muted)}
+article{background:var(--surface);border:1px solid #e5eaf3;border-radius:12px;padding:clamp(16px,2.5vw,28px);box-shadow:0 6px 20px rgba(2,6,23,.06)}
+article p{margin:0 0 1em}
+.tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.tag{font-size:.85rem;background:#eef2ff;color:#1e293b;border:1px solid #c7d2fe;border-radius:999px;padding:.3rem .6rem;text-decoration:none}
+a{color:var(--accent)}
+footer{margin-top:18px;color:var(--muted);font-size:.95rem;text-align:center}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#0b1220;--surface:#0f172a;--fg:#e6edf3;--muted:#9aa4b2;--accent:#3b82f6}
+  header,.mast,article{border-color:#1f2937;box-shadow:none}
+  .tag{background:#111827;border-color:#374151;color:#e6edf3}
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="mast">
+      <div class="name">The Eastwood Ledger</div>
+      <div class="dateline">
+        Philadelphia, Pennsylvania · <time datetime="2025-08-14">Thursday, August 14, 2025</time>
+      </div>
+      <p class="strap">Independent reports on technology, craft, and quiet progress</p>
+    </header>
+
+    <main>
+      <p class="kicker">Front Page</p>
+      <h1>Small Files, Swift Pages: The Case for Hand-Built Sites</h1>
+      <p class="byline">By <a href="/about.html">Author Name</a></p>
+
+      <div class="rule" aria-hidden="true"></div>
+      <article>
+        <p>Speed favors the humble page. A single HTML file, a whisper of CSS, and a browser does the rest. The result reads well on a phone and wastes no battery.</p>
+        <p>Each story owns its style. No shared bundle. No fragile theme. You compile tag lists and monthly archives at build time so every link lands on a static file.</p>
+
+        <blockquote class="pull">“Type first. Effects later. If it hurts the reading, it isn’t design.”</blockquote>
+
+        <p>Typography does the heavy lifting. Keep the line length near 60–70 characters. Use generous line height. Let hyphenation help justification on wider screens.</p>
+
+        <figure>
+          <img src="/images/linotype.jpg" alt="Compositor working at a linotype machine">
+          <figcaption>Linotype once sped newspapers. Today, clean HTML plays that role.</figcaption>
+        </figure>
+
+        <p>A page like this degrades gracefully. Old browsers ignore niceties like columns and small caps. The copy still reads cleanly in one column on mobile.</p>
+      </article>
+
+      <nav class="tags" aria-label="Tags">
+        <a class="tag" href="/tag/design.html">design</a>
+        <a class="tag" href="/tag/typography.html">typography</a>
+        <a class="tag" href="/tag/static.html">static</a>
+      </nav>
+
+      <footer>
+        <a href="/">Home</a> · <a href="/archive/2025/08/">Aug 2025 archive</a>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

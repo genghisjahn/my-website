@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Example Article • Classic</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A simple, readable, single-column article layout.">
+  <link rel="canonical" href="https://example.com/articles/example-article">
+  <style>
+    :root { --fg:#111; --bg:#fff; --muted:#666; --accent:#0a7; --max:65ch; }
+    html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;}
+    .wrap{max-width:var(--max);margin:auto;padding:clamp(16px,2vw,24px);}
+    header h1{font-size:clamp(1.8rem,3.2vw,2.4rem);line-height:1.2;margin:8px 0 2px}
+    .byline{color:var(--muted);font-size:0.95rem;margin:0 0 18px}
+    .byline a{color:inherit;text-decoration:none;border-bottom:1px dotted currentColor}
+    article p{margin:0 0 1em}
+    article img{max-width:100%;height:auto;border-radius:8px}
+    .tags{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}
+    .tag{font-size:.85rem;padding:.25rem .5rem;border-radius:999px;background:#eef;color:#224;text-decoration:none}
+    footer{margin-top:40px;border-top:1px solid #eee;padding-top:16px;color:var(--muted);font-size:.9rem}
+    @media (prefers-color-scheme: dark){
+      :root{--fg:#eaeaea;--bg:#111;--muted:#aaa;--accent:#3dd;}
+      .tag{background:#123;color:#bfe}
+      footer{border-color:#222}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Building Simple, Fast Static Pages</h1>
+      <p class="byline">
+        By <a href="/about.html">Author Name</a> ·
+        <time datetime="2025-08-14">August 14, 2025</time>
+      </p>
+    </header>
+
+    <article>
+      <p>This template favors clarity. One column. Comfortable line length. Mobile-first CSS.</p>
+      <p>Keep assets small. Inline critical styles per page so each article controls its theme.</p>
+      <figure>
+        <img src="/images/hero-example.jpg" alt="Abstract shapes">
+      </figure>
+      <p>Tags link to static lists you generate at build time.</p>
+    </article>
+
+    <nav class="tags" aria-label="Tags">
+      <a class="tag" href="/tag/web.html">web</a>
+      <a class="tag" href="/tag/design.html">design</a>
+      <a class="tag" href="/tag/static.html">static</a>
+    </nav>
+
+    <footer>
+      <a href="/">Home</a> · <a href="/archive/2025/08/">Aug 2025 archive</a>
+    </footer>
+  </div>
+</body>
+</html>

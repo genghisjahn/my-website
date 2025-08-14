@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The Eastwood Ledger • Special Edition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Old-time newspaper layout. Mobile-first, readable, single file with inline CSS.">
+  <style>
+:root{
+  --bg:#e7fbff; --surface:#fffaf2; --fg:#0b3a53; --muted:#4b6b76;
+  --sea:#00bdb4; --coral:#ff6b6b; --sun:#ffd166; --max:70ch;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg)}
+body{font:17px/1.75 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial}
+.wrap{max-width:var(--max);margin:auto;padding:clamp(16px,3vw,28px)}
+header,.mast{
+  color:#083041;
+  background:
+    radial-gradient(900px 200px at 80% -10%, rgba(255,209,102,.35), transparent 60%),
+    linear-gradient(180deg,#ffffff, #f1fffd 60%, #dff8ff);
+  border:2px solid #b7ecf0;border-radius:14px;padding:18px 16px
+}
+h1{margin:.2rem 0 .4rem;line-height:1.15;font-size:clamp(1.5rem,4.2vw,2.3rem)}
+.byline,.dateline{color:var(--muted)}
+article{
+  background:var(--surface);border:2px solid #ffe6b3;border-radius:14px;
+  padding:clamp(16px,2.5vw,26px)
+}
+article p{margin:0 0 1em}
+.rule{height:3px;background:
+  linear-gradient(90deg,var(--sea),var(--coral));border-radius:3px;margin:14px 0}
+.tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.tag{background:linear-gradient(90deg,var(--sea),var(--coral));
+  color:#052b36;border:none;border-radius:999px;padding:.35rem .7rem;
+  text-decoration:none;font-weight:600}
+a{color:var(--sea)}
+footer{margin-top:16px;color:var(--muted);font-size:.95rem;text-align:center}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#061a1d;--surface:#0c2427;--fg:#e6ffff;--muted:#9bd0d6}
+  header,.mast{border-color:#13383d}
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="mast">
+      <div class="name">The Eastwood Ledger</div>
+      <div class="dateline">
+        Philadelphia, Pennsylvania · <time datetime="2025-08-14">Thursday, August 14, 2025</time>
+      </div>
+      <p class="strap">Independent reports on technology, craft, and quiet progress</p>
+    </header>
+
+    <main>
+      <p class="kicker">Front Page</p>
+      <h1>Small Files, Swift Pages: The Case for Hand-Built Sites</h1>
+      <p class="byline">By <a href="/about.html">Author Name</a></p>
+
+      <div class="rule" aria-hidden="true"></div>
+      <article>
+        <p>Speed favors the humble page. A single HTML file, a whisper of CSS, and a browser does the rest. The result reads well on a phone and wastes no battery.</p>
+        <p>Each story owns its style. No shared bundle. No fragile theme. You compile tag lists and monthly archives at build time so every link lands on a static file.</p>
+
+        <blockquote class="pull">“Type first. Effects later. If it hurts the reading, it isn’t design.”</blockquote>
+
+        <p>Typography does the heavy lifting. Keep the line length near 60–70 characters. Use generous line height. Let hyphenation help justification on wider screens.</p>
+
+        <figure>
+          <img src="/images/linotype.jpg" alt="Compositor working at a linotype machine">
+          <figcaption>Linotype once sped newspapers. Today, clean HTML plays that role.</figcaption>
+        </figure>
+
+        <p>A page like this degrades gracefully. Old browsers ignore niceties like columns and small caps. The copy still reads cleanly in one column on mobile.</p>
+      </article>
+
+      <nav class="tags" aria-label="Tags">
+        <a class="tag" href="/tag/design.html">design</a>
+        <a class="tag" href="/tag/typography.html">typography</a>
+        <a class="tag" href="/tag/static.html">static</a>
+      </nav>
+
+      <footer>
+        <a href="/">Home</a> · <a href="/archive/2025/08/">Aug 2025 archive</a>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

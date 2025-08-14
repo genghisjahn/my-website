@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ .Title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {{- if .CanonicalURL }}<link rel="canonical" href="{{ .CanonicalURL }}">{{ end -}}
+  <link rel="stylesheet" href="/css/retro-sci-fi.css">
+</head>
+<body>
+  <div class="wrap">
+    <div class="crt">
+      <header>
+        <h1>{{ .Title }}</h1>
+        <p class="byline">By {{ .Author.Name }} · <time datetime="{{ .Date }}">{{ .DateHuman }}</time></p>
+      </header>
+
+      <div class="rule" aria-hidden="true"></div>
+
+      {{ .ContentHTML }}
+
+      {{- if .Tags }}
+      <nav class="tags" aria-label="Tags">
+        {{- range .Tags }}
+          <a class="tag" href="/tag/{{ .Slug }}/">{{ .Name }}</a>
+        {{- end }}
+      </nav>
+      {{- end }}
+
+      <footer>
+        <a href="/">Home</a> · <a href="/archive/">Archive</a>
+      </footer>
+    </div>
+  </div>
+</body>
+</html>
