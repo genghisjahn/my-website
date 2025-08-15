@@ -1,0 +1,18 @@
+{
+  "slug": "trouble-with-the-robot",
+  "title": "Trouble with the Robot",
+  "subtitle": null,
+  "date": "2025-08-15",
+  "updated": null,
+  "author": { "name": "Jon Wear", "url": null },
+  "summary": "It saves so much time.  It wastes so much time.",
+  "tags": [
+    { "name": "chatGPT", "slug": "chatGPT" }
+  ],
+  "hero": { "src": "/images/hero.jpg", "alt": "Corridor lights" },
+  "canonical_url": null,
+  "css": "/css/retro-sci-fi.css",
+  "draft": false,
+  "reading_time_min": 2,
+  "content_html": "<article><p>Where was I?  Oh yes.  My super simple/fast web server was working.  My content was building, it was rendering just like I wanted.  Then I asked for a script that would copy the server binary from my local machine to...the server.  And it took 4-Evah!</p><p>Back and forth, forgetting command line args, forgetting the directory, making it way more complicated than it needed to be and it never quite working.  It would even do some kind of unicode ... elipses thing that prevented the script from running at all.  I finally threw it all away and had it do each part of the script one at a time.  First build, then stop remotely, then copy out...etc.</p><p>It works now, but jeez.</p></article>"
+}
