@@ -70,7 +70,9 @@ type Article struct {
 	ReadingTimeMin *int    `json:"reading_time_min"`
 	ContentHTML    string  `json:"content_html"`
 	// derived
-	t time.Time
+	t    time.Time
+	Prev *Article `json:"-"`
+	Next *Article `json:"-"`
 }
 
 type markdownArticle struct {
@@ -104,7 +106,9 @@ func mustTemplate(path string) *template.Template {
 		log.Fatalf("read template %s: %v", path, err)
 	}
 	// allow raw HTML insertion via template.HTML
-	funcs := template.FuncMap{}
+	funcs := template.FuncMap{
+		"split": strings.Split,
+	}
 	tpl, err := template.New(filepath.Base(path)).Funcs(funcs).Parse(string(b))
 	if err != nil {
 		log.Fatalf("parse template %s: %v", path, err)
@@ -148,6 +152,8 @@ type articleView struct {
 	ContentHTML  template.HTML
 	CanonicalURL *string
 	Hero         *Hero
+	Prev         *Article
+	Next         *Article
 }
 
 type listItem struct {
@@ -261,6 +267,15 @@ func main() {
 	}
 	sort.Slice(arts, func(i, j int) bool { return arts[i].t.After(arts[j].t) })
 
+	for i := range arts {
+		if i > 0 {
+			arts[i].Prev = &arts[i-1]
+		}
+		if i < len(arts)-1 {
+			arts[i].Next = &arts[i+1]
+		}
+	}
+
 	// Prepare maps
 	tagMap := map[string]struct {
 		Name  string
@@ -279,6 +294,8 @@ func main() {
 			ContentHTML:  template.HTML(a.ContentHTML),
 			CanonicalURL: a.CanonicalURL,
 			Hero:         a.Hero,
+			Prev:         a.Prev,
+			Next:         a.Next,
 		}
 		out := new(bytes.Buffer)
 		if err := articleTpl.Execute(out, av); err != nil {
