@@ -17,7 +17,7 @@
     <div class="crt">
       <header>
         <h1>{{ .Title }}</h1>
-        {{- if .Subtitle }}<p class="byline">{{ .Subtitle }}</p>{{ end }}
+        {{- if .Subtitle }}<p class="byline"><a href='mailto:{{ .Subtitle }}'>{{ .Subtitle }}</a></p>{{ end }}
       </header>
       <div class="rule" aria-hidden="true"></div>
       <div class="panel">
