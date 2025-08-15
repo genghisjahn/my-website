@@ -32,8 +32,119 @@ article p{margin:0 0 1em}
 .tag{font-size:.85rem;padding:.35rem .65rem;border-radius:999px;color:#031321;text-decoration:none;background:linear-gradient(90deg,var(--cyan),var(--mag));box-shadow:0 0 20px rgba(0,255,240,.25)}
 footer{padding:14px 22px 22px;color:var(--muted);font-size:.9rem}
 a{color:var(--cyan)}
+u {
+  text-decoration: underline;
+}
 @media (prefers-color-scheme: light){
   :root{--fg:#0a1020;--bg:#f6f9ff;--panel:#eaf2ff;--muted:#3a4a72;--rule:#cfe3ff}
   .crt{box-shadow:0 0 0 2px #cfe3ff, 0 20px 60px rgba(0,20,80,.15)}
   header{text-shadow:none}
+}
+
+blockquote {
+  margin: 1.5em 22px;
+  padding: 1em 1.5em;
+  background: var(--panel);
+  border-left: 4px solid var(--cyan);
+  color: var(--muted);
+  font-style: italic;
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 1px var(--rule), 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+blockquote::before {
+  content: "“";
+  font-size: 2.5rem;
+  line-height: 0;
+  vertical-align: -0.4em;
+  color: var(--cyan);
+  margin-right: 0.25em;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  background: #111628;
+  color: var(--cyan);
+  padding: 0.15em 0.4em;
+  border-radius: 6px;
+  font-size: 0.95em;
+  box-shadow: inset 0 0 0 1px var(--rule);
+}
+
+pre code {
+  display: block;
+  padding: 1em;
+  overflow-x: auto;
+  background: var(--panel);
+  color: var(--fg);
+  border-radius: 10px;
+  border: 1px solid var(--rule);
+  box-shadow: inset 0 0 0 1px var(--rule), 0 6px 20px rgba(0, 0, 0, 0.4);
+  line-height: 1.5;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+  background: var(--panel);
+  color: var(--fg);
+  font-size: 0.95rem;
+  box-shadow: inset 0 0 0 1px var(--rule), 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+thead {
+  background: rgba(0, 255, 240, 0.1);
+  color: var(--cyan);
+}
+
+th,
+td {
+  border: 1px solid var(--rule);
+  padding: 0.6em 1em;
+  text-align: left;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+tbody tr:hover {
+  background-color: rgba(0, 255, 240, 0.05);
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.2em;
+  height: 1.2em;
+  margin-right: 0.6em;
+  border: 2px solid var(--cyan);
+  border-radius: 3px;
+  background-color: var(--panel);
+  position: relative;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--cyan);
+  border-color: var(--cyan);
+}
+
+input[type="checkbox"]::after {
+  content: '';
+  position: absolute;
+  left: 0.35em;
+  top: 0.15em;
+  width: 0.3em;
+  height: 0.6em;
+  border: solid var(--bg);
+  border-width: 0 0.15em 0.15em 0;
+  transform: rotate(45deg);
+  display: none;
+}
+
+input[type="checkbox"]:checked::after {
+  display: block;
 }
