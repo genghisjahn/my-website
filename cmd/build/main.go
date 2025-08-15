@@ -277,7 +277,7 @@ func main() {
 	}
 	writeList(listTpl, filepath.Join(outDir, "index.html"), listView{
 		Title:    "jonwear.com",
-		Subtitle: "",
+		Subtitle: "jon@jonwear.com",
 		Items:    homeItems,
 	})
 	if dirExists("css") {
