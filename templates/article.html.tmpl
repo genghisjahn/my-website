@@ -30,8 +30,19 @@
       {{ end }}
 
       <div class="rule" aria-hidden="true"></div>
-        <article>
-      {{ .ContentHTML }}
+       <article>
+          {{ .ContentHTML }}
+
+          <nav class="article-nav">
+            {{ if .Prev }}
+              Previous: <a class="prev" href="/articles/{{ .Prev.Slug }}/">&larr; {{ .Prev.Title }}</a>
+            {{ end }}
+            {{ if .Next }}
+              </br>
+              &nbsp;&nbsp;&nbsp;&nbsp;Next: <a class="next" href="/articles/{{ .Next.Slug }}/">{{ .Next.Title }} &rarr;</a>
+            {{ end }}
+          </nav>
+      
     <article>
       {{- if .Tags }}
       <nav class="tags" aria-label="Tags">
