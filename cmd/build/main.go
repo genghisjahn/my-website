@@ -147,6 +147,7 @@ type articleView struct {
 	Tags         []Tag
 	ContentHTML  template.HTML
 	CanonicalURL *string
+	Hero         *Hero
 }
 
 type listItem struct {
@@ -277,6 +278,7 @@ func main() {
 			Tags:         a.Tags,
 			ContentHTML:  template.HTML(a.ContentHTML),
 			CanonicalURL: a.CanonicalURL,
+			Hero:         a.Hero,
 		}
 		out := new(bytes.Buffer)
 		if err := articleTpl.Execute(out, av); err != nil {
