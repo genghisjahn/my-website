@@ -51,10 +51,11 @@ That is all, let's see how it renders.
     * This is a sub bullet
 * This is a regular bullet
 
-| Column 1 | Column 2 |
+| Player Name| Avg. |
 |----------|----------|
-| Row 1    | Data     |
-| Row 2    | More     |
+| Jon Wear    | .384     |
+| Bob "Whif" Johnson    | .221     |
+
 
 - [x] Task 1
 - [ ] Task 2

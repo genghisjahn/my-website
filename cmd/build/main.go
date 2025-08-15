@@ -213,9 +213,14 @@ func main() {
 			htmlBuf := new(bytes.Buffer)
 
 			var md = goldmark.New(
-				goldmark.WithExtensions(extension.Strikethrough),
+				goldmark.WithExtensions(
+					extension.Strikethrough,
+					extension.Table,
+					extension.TaskList,
+				),
 				goldmark.WithRendererOptions(
 					html.WithUnsafe(),
+					html.WithXHTML(),
 				),
 			)
 
