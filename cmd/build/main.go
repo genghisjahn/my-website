@@ -12,6 +12,9 @@ import (
 	"sort"
 	"strings"
 	"time"
+
+	"github.com/yuin/goldmark"
+	"gopkg.in/yaml.v3"
 )
 
 func dirExists(p string) bool { fi, err := os.Stat(p); return err == nil && fi.IsDir() }
@@ -66,6 +69,22 @@ type Article struct {
 	ContentHTML    string  `json:"content_html"`
 	// derived
 	t time.Time
+}
+
+type markdownArticle struct {
+	Slug           string  `yaml:"slug"`
+	Title          string  `yaml:"title"`
+	Subtitle       *string `yaml:"subtitle"`
+	Date           string  `yaml:"date"`
+	Updated        *string `yaml:"updated"`
+	Author         Author  `yaml:"author"`
+	Summary        *string `yaml:"summary"`
+	Tags           []Tag   `yaml:"tags"`
+	Hero           *Hero   `yaml:"hero"`
+	CanonicalURL   *string `yaml:"canonical_url"`
+	CSS            *string `yaml:"css"`
+	Draft          bool    `yaml:"draft"`
+	ReadingTimeMin *int    `yaml:"reading_time_min"`
 }
 
 var (
@@ -149,26 +168,73 @@ func main() {
 
 	var arts []Article
 	err := filepath.WalkDir(srcDir, func(path string, d fs.DirEntry, err error) error {
-		if err != nil || d.IsDir() || !strings.HasSuffix(d.Name(), ".json") {
+		if err != nil || d.IsDir() {
 			return err
 		}
-		b, err := os.ReadFile(path)
-		if err != nil {
-			return err
-		}
-		var a Article
-		if err := json.Unmarshal(b, &a); err != nil {
-			return err
-		}
-		if a.Draft {
+		if strings.HasSuffix(d.Name(), ".json") {
+			b, err := os.ReadFile(path)
+			if err != nil {
+				return err
+			}
+			var a Article
+			if err := json.Unmarshal(b, &a); err != nil {
+				return err
+			}
+			if a.Draft {
+				return nil
+			}
+			a.t = mustParseDate(a.Date)
+			if a.ReadingTimeMin == nil || *a.ReadingTimeMin < 1 {
+				rt := readingTimeMinutes(a.ContentHTML)
+				a.ReadingTimeMin = &rt
+			}
+			arts = append(arts, a)
 			return nil
 		}
-		a.t = mustParseDate(a.Date)
-		if a.ReadingTimeMin == nil || *a.ReadingTimeMin < 1 {
-			rt := readingTimeMinutes(a.ContentHTML)
-			a.ReadingTimeMin = &rt
+		if strings.HasSuffix(d.Name(), ".md") {
+			b, err := os.ReadFile(path)
+			if err != nil {
+				return err
+			}
+			content := string(b)
+			parts := strings.SplitN(content, "---", 3)
+			if len(parts) < 3 {
+				return nil // skip invalid
+			}
+			var meta markdownArticle
+			if err := yaml.Unmarshal([]byte(parts[1]), &meta); err != nil {
+				return err
+			}
+			if meta.Draft {
+				return nil
+			}
+			htmlBuf := new(bytes.Buffer)
+			if err := goldmark.Convert([]byte(parts[2]), htmlBuf); err != nil {
+				return err
+			}
+			a := Article{
+				Slug:           meta.Slug,
+				Title:          meta.Title,
+				Subtitle:       meta.Subtitle,
+				Date:           meta.Date,
+				Updated:        meta.Updated,
+				Author:         meta.Author,
+				Summary:        meta.Summary,
+				Tags:           meta.Tags,
+				Hero:           meta.Hero,
+				CanonicalURL:   meta.CanonicalURL,
+				CSS:            meta.CSS,
+				Draft:          false,
+				ReadingTimeMin: meta.ReadingTimeMin,
+				ContentHTML:    htmlBuf.String(),
+				t:              mustParseDate(meta.Date),
+			}
+			if a.ReadingTimeMin == nil || *a.ReadingTimeMin < 1 {
+				rt := readingTimeMinutes(a.ContentHTML)
+				a.ReadingTimeMin = &rt
+			}
+			arts = append(arts, a)
 		}
-		arts = append(arts, a)
 		return nil
 	})
 	if err != nil {
