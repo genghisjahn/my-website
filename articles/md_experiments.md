@@ -9,7 +9,7 @@ tags:
   - name: markdown
     slug: markdown
 hero:
-  src: /images/hero.png
+  src: /images/hero2.png
   alt: Corridor lights
 css: /css/retro-sci-fi.css
 draft: false

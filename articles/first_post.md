@@ -11,7 +11,7 @@ tags:
   - name: chatGPT
     slug: chatGPT
 hero:
-  src: /images/hero.png
+  src: /images/hero_article_1.png
   alt: Corridor lights
 css: /css/retro-sci-fi.css
 draft: false
