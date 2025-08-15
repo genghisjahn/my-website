@@ -4,7 +4,13 @@
   <meta charset="utf-8">
   <title>Tag: chatGPT</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="/css/retro-sci-fi.css">
+    <link rel="stylesheet" href="/css/retro-sci-fi.css">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#0a0e1a">
 </head>
 <body>
   <div class="wrap">
@@ -13,6 +19,26 @@
         <h1>Tag: chatGPT</h1>
       </header>
       <div class="rule" aria-hidden="true"></div>
+      <div class="panel">
+          <strong>Day of Year:</strong>
+          <div class="meter" aria-label="Day of Year"><span id="dayOfYearBar"></span></div>
+          <div id="dayOfYearText" style="margin-top:6px;font-size:.9rem;color:var(--muted)"></div>
+          <script>
+            (function(){
+              const now = new Date();
+              const start = new Date(now.getFullYear(), 0, 0);
+              const diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
+              const oneDay = 1000 * 60 * 60 * 24;
+              const day = Math.floor(diff / oneDay);
+              const isLeap = (new Date(now.getFullYear(), 1, 29).getMonth() === 1);
+              const maxDays = isLeap ? 366 : 365;
+              const pct = (day / maxDays) * 100;
+              document.getElementById('dayOfYearBar').style.width = pct + '%';
+              document.getElementById('dayOfYearBar').style.background = 'linear-gradient(90deg,var(--cyan),var(--mag))';
+              document.getElementById('dayOfYearText').textContent = `Day ${day} of ${maxDays}`;
+            })();
+          </script>
+        </div>
       <article>
         <ul>
           <li><time datetime="2025-08-14">August 14, 2025</time> · <a href="/articles/human-text-and-robot-html/">Human Text &amp; Robot HTML</a></li>

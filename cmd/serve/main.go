@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"log"
+	"mime"
 	"net/http"
 	"os"
 	"os/signal"
@@ -12,6 +13,10 @@ import (
 	"syscall"
 	"time"
 )
+
+func init() {
+	_ = mime.AddExtensionType(".webmanifest", "application/manifest+json")
+}
 
 func main() {
 	addr := flag.String("addr", ":8080", "listen address")
