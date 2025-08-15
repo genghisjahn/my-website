@@ -50,3 +50,11 @@ That is all, let's see how it renders.
 * This is just bullets.
     * This is a sub bullet
 * This is a regular bullet
+
+| Column 1 | Column 2 |
+|----------|----------|
+| Row 1    | Data     |
+| Row 2    | More     |
+
+- [x] Task 1
+- [ ] Task 2
