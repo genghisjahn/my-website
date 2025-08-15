@@ -14,6 +14,8 @@ import (
 	"time"
 
 	"github.com/yuin/goldmark"
+	"github.com/yuin/goldmark/extension"
+	"github.com/yuin/goldmark/renderer/html"
 	"gopkg.in/yaml.v3"
 )
 
@@ -209,9 +211,20 @@ func main() {
 				return nil
 			}
 			htmlBuf := new(bytes.Buffer)
-			if err := goldmark.Convert([]byte(parts[2]), htmlBuf); err != nil {
+
+			var md = goldmark.New(
+				goldmark.WithExtensions(extension.Strikethrough),
+				goldmark.WithRendererOptions(
+					html.WithUnsafe(),
+				),
+			)
+
+			if err := md.Convert([]byte(parts[2]), htmlBuf); err != nil {
 				return err
 			}
+
+			htmlStr := htmlBuf.String()
+
 			a := Article{
 				Slug:           meta.Slug,
 				Title:          meta.Title,
@@ -226,7 +239,7 @@ func main() {
 				CSS:            meta.CSS,
 				Draft:          false,
 				ReadingTimeMin: meta.ReadingTimeMin,
-				ContentHTML:    htmlBuf.String(),
+				ContentHTML:    htmlStr,
 				t:              mustParseDate(meta.Date),
 			}
 			if a.ReadingTimeMin == nil || *a.ReadingTimeMin < 1 {

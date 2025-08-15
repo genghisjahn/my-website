@@ -16,12 +16,17 @@ draft: false
 reading_time_min: 2
 ---
 
-First off, let's so some *basic* things with text to see if **markdown** renders it correctly.  So far so good.  I'll put that in __underline__, or is it _underline_?.  I want to see what we can ~~strike out~~.  Lastly, I want to see if we can do a link and or an image.  The link will be to [jonwear.com](https://jonwear.com) and the image will be ![hero image](/images/hero2.png).
+First off, let's so some *basic* things with text to see if **markdown** renders it correctly.  So far so good.  I'll put that in <u>underline</u>? I want to see what we can ~~strike out~~.  Lastly, I want to see if we can do a link and or an image.  The link will be to [jonwear.com](https://jonwear.com) and the image will be <img src="/images/hero2.png" alt="hero image" width="400">.
 
-> Let's look at quotes and things like that.
+> Let's look at quotes and things like that.  This is where I'm doing lots of quoting about something someone said somewhere.  It should be obvious it's a quote.  Let's see how it looks.
 
 ```go
-    var i = 0
+    var md = goldmark.New(
+        goldmark.WithExtensions(extension.Strikethrough),
+        goldmark.WithRendererOptions(
+            html.WithUnsafe(),
+        ),
+    )
 ```
 
 `This could be kind of set apart.`
@@ -34,3 +39,14 @@ alert('Hello!');
 
 That is all, let's see how it renders.
 
+1. We also need a list of things
+1. Here's the second thing
+1. Here's the 3rd thing.
+    1. Here's a sub item
+    1. Here's another one.
+1. Back to the main list.
+
+* This is not numbered.
+* This is just bullets.
+    * This is a sub bullet
+* This is a regular bullet
