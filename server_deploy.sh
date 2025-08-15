@@ -10,8 +10,11 @@ REMOTE_USER="genghisjahn"
 REMOTE_HOST="ryz-2"
 REMOTE_DIR="/home/${REMOTE_USER}/jonwear.com"
 
+echo "Establishing SSH control master connection..."
+ssh -M -S /tmp/ssh_mux_$REMOTE_HOST -fnNT "${REMOTE_USER}@${REMOTE_HOST}"
+
 echo "Stopping any running instance on $REMOTE_HOST..."
-ssh "${REMOTE_USER}@${REMOTE_HOST}" "
+ssh -S /tmp/ssh_mux_$REMOTE_HOST "${REMOTE_USER}@${REMOTE_HOST}" "
   pkill -f ~/web_server/site_server || echo 'No running process found.'
 "
 
@@ -23,11 +26,11 @@ echo "Binary built at $OUTPUT_BINARY"
 # Copy the binary to the remote server
 
 echo "Copying binary to ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_DIR}..."
-scp "$OUTPUT_BINARY" "${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_DIR}/"
+scp -o ControlPath=/tmp/ssh_mux_$REMOTE_HOST "$OUTPUT_BINARY" "${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_DIR}/"
 rm "$OUTPUT_BINARY"
 
 echo "Starting remote server..."
-ssh "${REMOTE_USER}@${REMOTE_HOST}" "
+ssh -S /tmp/ssh_mux_$REMOTE_HOST "${REMOTE_USER}@${REMOTE_HOST}" "
   nohup ~/web_server/site_server \
     -public \"$REMOTE_DIR\" \
     -css \"$REMOTE_DIR/css\" \
@@ -36,3 +39,5 @@ ssh "${REMOTE_USER}@${REMOTE_HOST}" "
     >> ~/web_server/site_server.log 2>&1 < /dev/null &
   disown
 "
+
+ssh -S /tmp/ssh_mux_$REMOTE_HOST -O exit "${REMOTE_USER}@${REMOTE_HOST}"
