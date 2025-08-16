@@ -269,10 +269,10 @@ func main() {
 
 	for i := range arts {
 		if i > 0 {
-			arts[i].Prev = &arts[i-1]
+			arts[i].Next = &arts[i-1]
 		}
 		if i < len(arts)-1 {
-			arts[i].Next = &arts[i+1]
+			arts[i].Prev = &arts[i+1]
 		}
 	}
 
