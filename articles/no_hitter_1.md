@@ -33,7 +33,7 @@ There is some extra code in there too because sometimes a player can get to firs
 
 That's it.  Check BA and OBP.  If say, [**Hu's on first**](http://cdn2.sbnation.com/imported_assets/983249/405694_178315385608995_100002916031264_290280_582254303_n_medium.jpg) and the next player gets out there's a 10% both players are out.
 
-How many no-hitters does my simulation come up with?  I've run it abunch of times and the range is usually between 98 and 115 in a 150 years of seasons.  What this tells us is the pitcher has a big impact on how often a no hitter happens.  That was _obvious_ before I ran the model.  But it does quantify for me _how much_ of an impact the pitcher has in this situation.  I now know that a pitchers ability more than doubles the chances of a no hitter over and above the ability of the hitters on the other team.  Well, I think I know that.  Baseball in general is hard.  No hitters are harder and statistic is more difficult yet.
+How many no-hitters does my simulation come up with?  I've run it abunch of times and the range is usually between 98 and 115 in a 150 years of seasons.  What this tells us is the pitcher has a big impact on how often a no hitter happens.  That was _obvious_ before I ran the model.  But it does quantify for me _how much_ of an impact the pitcher has in this situation.  I now know that a pitchers ability more than doubles the chances of a no hitter over and above the ability of the hitters on the other team.  Well, I think I know that.  Baseball in general is hard.  No hitters are harder and statistic is more difficult yet.  Here's my code if you want to yell at me about it: https://github.com/genghisjahn/baseball_nohit
 
 Some interesting notes on no-hitters in baseball:
 
