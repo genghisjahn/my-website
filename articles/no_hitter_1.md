@@ -25,7 +25,7 @@ A no-hitter is when a pitcher goes the entire game without allowing the other te
 Anyhoo, I thought it would be fun to write a simple model of a baseball season to see how many no hitters occurred just from a normal random chance based on the hitting abilities of the players.  Even though a no-hitter is primarily a feat showing the prowess of the _pitcher_, I would not take pitching into account _at all_ (I told you this would be a simple model).  My model works like this.  I take a line up of 9 players.  Each player would have a batting average (BA) and an On Base Percentage (OBP).  BA is the number of actual hits a player has divided by the number of overall at bats.  OBP is the number of times the player got on base (due to a hit, a walk, or getting hit by a pitch).  
 
 1. I loop through all 9 players a total of 27 times (9 innings, 3 outs each inning).  
-1. Each time through, I generate a random number from 0 to 1.  
+1. For each loop, I generate a random number from 0 to 1.  
     1. If that number is less than the current player's BA, then we have a hit.  We stop the model, the game can't be a no hitter.
     1. If that number is greater than the current player's BA but less than the current player's OBP, that means the player got walked, or got hit by a pitch.  So they are not out, but they didn't hit the ball either.
         1. Yes, it is possible to pitch 4 walks in a row, lose a game 0-1 and still record a no hitter.
