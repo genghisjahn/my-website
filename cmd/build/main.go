@@ -224,6 +224,7 @@ func main() {
 					extension.Strikethrough,
 					extension.Table,
 					extension.TaskList,
+					extension.Footnote,
 				),
 				goldmark.WithRendererOptions(
 					html.WithUnsafe(),
