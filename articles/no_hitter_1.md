@@ -18,7 +18,9 @@ draft: false
 reading_time_min: 2
 ---
 
-Baseball is a fun sport to play with from a data modeling point of view because there are so many numbers associated with each game and there are over 150 seasons of baseball stats to look over.  A single season has 2,430 individual games.  That's at least 131,220 plate appearances per season and don't get me started on the number of pitches, swings, foulballs, etc there are in addition.  But let's get to the point, the no-hitter.  A no-hitter is when a pitcher goes the entire game without allowing the other team to record a single hit. Most MLB games are 9 innings, each inning has 3 outs so that means the pitcher records 27 consecutive outs without allowing a hit.  That is very hard to do.  There have only been 326 no hitters in the approximately 150 years of MLB [^1].  The last one was September 4th, 2024 (although the Cubs used 3 pitchers to do it[^2]).
+Baseball is a fun sport to play with from a data modeling point of view because there are so many numbers associated with each game and there are over 150 seasons of baseball stats to look over.  A single season has 2,430 individual games.  That's at least 131,220 plate appearances per season and don't get me started on the number of pitches, swings, foulballs, etc there are in addition.  But let's get to the point, the no-hitter.  
+
+A no-hitter is when a pitcher goes the entire game without allowing the other team to record a single hit. Most MLB games are 9 innings, each inning has 3 outs so that means the pitcher records 27 consecutive outs without allowing a hit.  That is very hard to do.  There have only been 326 no hitters in the approximately 150 years of MLB [^1].  The last one was September 4th, 2024 (although the Cubs used 3 pitchers to do it [^2] ).
 
 Anyhoo, I thought it would be fun to write a simple model of a baseball season to see how many no hitters occurred just from a normal random chance based on the hitting abilities of the players.  Even though a no-hitter is primarily a feat showing the prowess of the _pitcher_, I would not take pitching into account _at all_ (I told you this would be a simple model).  My model works like this.  I take a line up of 9 players.  Each player would have a batting average (BA) and an On Base Percentage (OBP).  BA is the number of actual hits a player has divided by the number of overall at bats.  OBP is the number of times the player got on base (due to a hit, a walk, or getting hit by a pitch).  
 
@@ -33,7 +35,7 @@ There is some extra code in there too because sometimes a player can get to firs
 
 That's it.  Check BA and OBP.  If say, [**Hu's on first**](http://cdn2.sbnation.com/imported_assets/983249/405694_178315385608995_100002916031264_290280_582254303_n_medium.jpg) and the next player gets out there's a 10% both players are out.
 
-How many no-hitters does my simulation come up with?  I've run it a bunch of times and the range is usually between 98 and 115 in a 150 years of seasons.  What this tells us is the pitcher has a big impact on how often a no hitter happens.  That was _obvious_ before I ran the model.  But it does quantify for me _how much_ of an impact the pitcher has in this situation.  I now know that a pitchers ability more than doubles the chances of a no hitter over and above the ability of the hitters on the other team.  Well, I think I know that.  Baseball in general is hard.  No hitters are harder and statistics are more difficult yet.  Here's my code if you want to yell at me about it: https://github.com/genghisjahn/baseball_nohit
+How many no-hitters does my simulation come up with?  I've run it a bunch of times and the range is usually between 98 and 115 in a 150 years of seasons.  What this tells us is the pitcher has a big impact on how often a no hitter happens.  That was _obvious_ before I ran the model.  But it does quantify for me _how much_ of an impact the pitcher has in this situation.  I now know that a pitcher's ability more than doubles the chances of a no hitter over and above the ability of the hitters on the other team.  Well, I think I know that.  Baseball in general is hard.  No hitters are harder and statistics are more difficult yet.  Here's my code if you want to yell at me about it: [baseball_nohit](https://github.com/genghisjahn/baseball_nohit/blob/main/main.go).
 
 Some interesting notes on no-hitters in baseball:
 
@@ -43,8 +45,8 @@ Some interesting notes on no-hitters in baseball:
 
 
 
-[^1]: MLB is very old or very young depending on how you look at it.  The National League started in 1876, the American League in 1901, however the to leagues did not officially combine until 2000. https://www.nytimes.com/1999/09/16/sports/baseball-league-presidents-out-as-baseball-centralizes.html
+[^1]: MLB is very old or very young depending on how you look at it.  The National League started in 1876, the American League in 1901, however the to leagues did not officially combine until 2000. [nytimes](https://www.nytimes.com/1999/09/16/sports/baseball-league-presidents-out-as-baseball-centralizes.html)
 
-[^2]: https://www.mlb.com/news/shota-imanaga-starts-cubs-combined-no-hitter
+[^2]: Shota's 7 frames start Cubs' first no-no at Wrigley since 1972 [mlb.com](https://www.mlb.com/news/shota-imanaga-starts-cubs-combined-no-hitter)
 
 AI Notice: I used chatGPT for grammer and spelling checks only.  No LLM was used to create the text of this post.  The hero image at the top was created by chatGPT.
