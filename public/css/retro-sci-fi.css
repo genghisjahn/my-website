@@ -154,6 +154,7 @@ input[type="checkbox"]:checked::after {
   width: 100%;
   max-width: var(--max);
   height: auto;
+  max-height: 50vh;
   margin: 0 auto 1.5rem;
   border-radius: 12px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
