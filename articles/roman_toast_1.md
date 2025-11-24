@@ -24,7 +24,7 @@ Just to get in the habit of posting again I'm going to post some recipes that I 
 1. Tear bread into bite-sized pieces.  The bread should be tough enough that it won't dissolve when it comes into contact with the milk
 1. Soak each piece in the milk/egg mix, or if you want, paint both sides with a basting/pastry brush and then set them aside
 1. Cook each piece for 1 to 2 minutes on each side in the cast iron skillet
-    1. Your preference for crunchiness/doneness will dictate how long.
+    1. Your preference for crunchiness/doneness will dictate how long
 1. Once all the pieces are cooked, pile them on a plate and drizzle with honey
 1. If you have it on hand, sprinkle a wee bit of confectioners’ sugar on top
 1. Try not to eat it all at once
