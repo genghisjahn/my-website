@@ -10,7 +10,7 @@ tags:
     slug: recipes
 hero:
   src: /images/roman_french_toast.png
-  alt: Corridor lights
+  alt: Frech Toast Ingredients
 css: /css/retro-sci-fi.css
 draft: false
 reading_time_min: 2
