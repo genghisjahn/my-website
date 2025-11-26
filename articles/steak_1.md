@@ -9,7 +9,7 @@ tags:
   - name: recipes
     slug: recipes
 hero:
-  src: /images/roman_french_toast.png
+  src: /images/steak.png
   alt: Cooking Steak
 css: /css/retro-sci-fi.css
 draft: false
