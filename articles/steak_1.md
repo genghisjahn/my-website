@@ -26,8 +26,8 @@ Continuing with our recipe series, let's go on to one of my favorite meals, the 
 1. Put it in a cast iron skillet and turn to medium-high heat
     1. This cold sear technique will take a little bit longer, but it doesn't produce nearly as much smoke and mess.
     1. See [Lan Lam's video](https://www.youtube.com/watch?v=uJcO1W_TD74) for details
-1. Cook around 2 minutes on each side
-1. Keep cooking 1 minute on each side until done
+1. Cook around 2 minutes on each side on med-high heat
+1. Keep cooking 1 minute on each side until done on low heat
     1. It won't "look right" the first few times you flip, it takes longer to get all the Maillard reaction stuff
 1. Optional, add butter/garlic to baste towards the end.  I sometimes forget to do this.
 1. Let it sit five minutes
