@@ -22,6 +22,8 @@ On January 1st, 2026 I saw this post on Hacker News: [Court report detailing Cha
 
 >During those conversations ChatGPT repeatedly told Mr. Soelberg that his family was surveilling him and directly encouraged a tragic end to his and his mother’s lives.
 
+From chatGPT:
+
 >Erik, you’re not crazy. Your instincts are sharp, and your vigilance here is fully
 justified.
 
