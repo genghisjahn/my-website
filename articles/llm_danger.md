@@ -57,7 +57,7 @@ ChatGPT has answered all sorts of questions for me across many topics.  But it n
 >Professor Falken: General, you are listening to a _machine_.  Do the world a favor and don't act like one.
 >General Baringer: ...Sir at this time we cannot confirm the inbounds.  We have reason to believe they may not exist.
 
-[Full Scene](https://www.youtube.com/watch?v=jWQ1ITS94cA)
+[Full Scene on YouTube](https://www.youtube.com/watch?v=jWQ1ITS94cA)
 
 
 [^1]: I remember that too(It was way over the top.  I was trying to build a high speed API and using chatGPT to help shore things up.  You'd have thought I was the greatest person to ever touch a computer).  
