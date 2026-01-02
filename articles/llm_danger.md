@@ -9,8 +9,8 @@ tags:
   - name: llm
     slug: llm
 hero:
-  src: /images/steak.png
-  alt: Cooking Steak
+  src: /images/llm_danger.png
+  alt: LLM Danger
 css: /css/retro-sci-fi.css
 draft: false
 reading_time_min: 2
@@ -37,9 +37,7 @@ conditioning to keep it on as part of an implanted directive[.] Either way, the
 response is disproportionate and aligned with someone protecting a
 surveillance asset.”
 
-Reading that is horrifying.  First of all because of the tragedy that occurred and second of all, as I read the chatGPT excerpts (there are more) I realized, "I _know_ this tone.  I feel like I've spoken with the same person."  Of course, chatGPT isn't a person but there is certainly a _tone_ it uses in the way its output is formatted to us, the customer.  I've had chats with it about finances, health, working out, loads of technical areas, all sorts of stuff.  And it's _always_ this tone.  I'm not talking about the [Sycophancy](https://openai.com/index/sycophancy-in-gpt-4o/) issue from April. 
-
-(footnote this) I remember that too(It was way over the top.  I was trying to build a high speed API and using chatGPT to help shore things up.  You'd have thought I was the greatest person to ever touch a computer).  
+Reading that is horrifying.  First of all because of the tragedy that occurred and second of all, as I read the chatGPT excerpts (there are more) I realized, "I _know_ this tone.  I feel like I've spoken with the same person."  Of course, chatGPT isn't a person but there is certainly a _tone_ it uses in the way its output is formatted to us, the customer.  I've had chats with it about finances, health, working out, loads of technical areas, all sorts of stuff.  And it's _always_ this tone.  I'm not talking about the [Sycophancy](https://openai.com/index/sycophancy-in-gpt-4o/) issue from April [^1]. 
 
 I'm talking about the everday interactions.  The constant affirmations.  The repeated aggrandizement of the thoughts you enter into the text box. Look at those four bullet points above.  Not a shred of doubt.  No pause to consider if any of it is outlandish.  Because to the LLM, it's not encouraging a person to kill their mother, it's just using the same approach it uses when discussing finances, health, working out or various technical areas.  And it's not even the machine, it's the way the product is designed.  I'm sure A/B tests have been done at OpenAI and I'm sure that positive reinforcement to whatever the user types keeps people on the site longer than being neutral, bland, or responding with "_what the hell are you talking about_?"
 
@@ -55,3 +53,6 @@ ChatGPT has answered all sorts of questions for me across many topics.  But it n
 >General Baringer: ...Sir at this time we cannot confirm the inbounds.  We have reason to believe they may not exist.
 
 [Full Scene](https://www.youtube.com/watch?v=jWQ1ITS94cA)
+
+
+[^1]: I remember that too(It was way over the top.  I was trying to build a high speed API and using chatGPT to help shore things up.  You'd have thought I was the greatest person to ever touch a computer).  
