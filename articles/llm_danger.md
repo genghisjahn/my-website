@@ -56,7 +56,7 @@ ChatGPT has answered all sorts of questions for me across many topics.  But it n
 
 >Professor Falken: General, you are listening to a _machine_.  Do the world a favor and don't act like one.
 
->General Baringer: ...Sir at this time we cannot confirm the inbounds.  We have reason to believe they may not exist.
+>General Beringer: ...Sir at this time we cannot confirm the inbounds.  We have reason to believe they may not exist.
 
 [Full Scene on YouTube](https://www.youtube.com/watch?v=jWQ1ITS94cA)
 
