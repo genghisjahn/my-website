@@ -61,6 +61,6 @@ ChatGPT has answered all sorts of questions for me across many topics.  But it n
 [Full Scene on YouTube](https://www.youtube.com/watch?v=jWQ1ITS94cA)
 
 
-[^1]: I remember that too(It was way over the top.  I was trying to build a high speed API and using chatGPT to help shore things up.  You'd have thought I was the greatest person to ever touch a computer).  
+[^1]: It was way over the top.  I was trying to build a high speed API and using chatGPT to help shore things up.  You'd have thought I was the greatest person to ever touch a computer.  
 
 AI Disclaimer:  I used claude code to make minor spelling/grammar changes to this post.  ChatGPT was used to create the article image.
