@@ -26,6 +26,12 @@ while IFS= read -r img; do
   cwebp -q 80 "$img" -o "$webp" -quiet && rm "$img"
   size_after=$(stat -f%z "$webp")
   total_after=$((total_after + size_after))
+  # Show per-file stats
+  name=$(basename "$webp")
+  kb_before=$((size_before / 1024))
+  kb_after=$((size_after / 1024))
+  file_pct=$((( size_before - size_after ) * 100 / size_before))
+  echo "  ${name}: ${kb_before}KB → ${kb_after}KB (${file_pct}%)"
 done < <(find "${LOCAL_PUBLIC}/images" -type f \( -iname "*.png" -o -iname "*.jpg" -o -iname "*.jpeg" \) 2>/dev/null)
 if [ $total_before -gt 0 ]; then
   saved=$((total_before - total_after))
@@ -33,7 +39,7 @@ if [ $total_before -gt 0 ]; then
   before_kb=$((total_before / 1024))
   after_kb=$((total_after / 1024))
   saved_kb=$((saved / 1024))
-  echo "  ${before_kb}KB → ${after_kb}KB (saved ${saved_kb}KB, ${pct}%)"
+  echo "  Total: ${before_kb}KB → ${after_kb}KB (saved ${saved_kb}KB, ${pct}%)"
 fi
 
 echo "Opening master SSH (one password prompt)…"
