@@ -238,6 +238,21 @@ input[type="checkbox"]:checked::after {
   border-color: var(--mag);
 }
 
+.facepile-name {
+  display: inline-block;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.85rem;
+  border: 1px solid var(--cyan);
+  border-radius: 4px;
+  color: var(--cyan);
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.facepile-name:hover {
+  border-color: var(--mag);
+  color: var(--mag);
+}
+
 .no-mentions {
   color: var(--muted);
   font-size: 0.9rem;
