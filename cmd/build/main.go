@@ -653,14 +653,10 @@ func main() {
 	// Posts RSS feed
 	var postRSSItems []rssItem
 	for _, a := range arts {
-		desc := ""
-		if a.Summary != nil {
-			desc = *a.Summary
-		}
 		postRSSItems = append(postRSSItems, rssItem{
 			Title:       a.Title,
 			Link:        siteURL + "/articles/" + a.Slug + "/",
-			Description: desc,
+			Description: a.ContentHTML,
 			PubDate:     a.t.Format(time.RFC1123Z),
 			GUID:        siteURL + "/articles/" + a.Slug + "/",
 		})
@@ -681,7 +677,7 @@ func main() {
 		noteRSSItems = append(noteRSSItems, rssItem{
 			Title:       n.Title,
 			Link:        siteURL + "/notes/" + n.Slug + "/",
-			Description: n.Title,
+			Description: n.ContentHTML,
 			PubDate:     n.t.Format(time.RFC1123Z),
 			GUID:        siteURL + "/notes/" + n.Slug + "/",
 		})

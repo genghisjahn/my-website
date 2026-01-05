@@ -22,9 +22,10 @@
 <body>
   <div class="wrap">
     <div class="crt">
+      <article class="h-entry">
       <header>
-        <h1>{{ .Title }}</h1>
-        <p class="byline">By {{ .Author.Name }} · <time datetime="{{ .Date }}">{{ .DateHuman }}</time></p>
+        <h1 class="p-name">{{ .Title }}</h1>
+        <p class="byline">By <span class="p-author">{{ .Author.Name }}</span> · <time class="dt-published" datetime="{{ .Date }}">{{ .DateHuman }}</time></p>
       </header>
 
       {{ with .Hero }}
@@ -37,8 +38,9 @@
       <nav class="site-nav">
         <a href="/">Home</a> · <a href="/archive/">Post Archive</a> / <a href="/feed.xml">RSS</a> · <a href="/notes/">Notes Archive</a> / <a href="/notes/feed.xml">RSS</a>
       </nav>
-       <article>
+       <div class="e-content">
           {{ .ContentHTML }}
+       </div>
 
           <nav class="article-nav">
             {{ if .Prev }}
