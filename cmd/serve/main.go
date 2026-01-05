@@ -74,8 +74,9 @@ func main() {
 
 func cacheWrap(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if hasExt(r.URL.Path, ".css", ".js", ".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp", ".ico") {
+		if hasExt(r.URL.Path, ".css", ".js", ".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp", ".ico", ".woff", ".woff2", ".xml", ".webmanifest") {
 			w.Header().Set("Cache-Control", "public, max-age=31536000, immutable")
+			w.Header().Set("Expires", time.Now().AddDate(1, 0, 0).UTC().Format(http.TimeFormat))
 		} else {
 			w.Header().Set("Cache-Control", "no-cache")
 		}
