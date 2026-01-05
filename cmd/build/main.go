@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"encoding/xml"
 	"html/template"
 	"io/fs"
 	"log"
@@ -229,6 +230,56 @@ type paginatedListView struct {
 	TotalPages  int
 	PrevURL     string
 	NextURL     string
+}
+
+// RSS feed types
+type rssChannel struct {
+	XMLName       xml.Name  `xml:"channel"`
+	Title         string    `xml:"title"`
+	Link          string    `xml:"link"`
+	Description   string    `xml:"description"`
+	Language      string    `xml:"language"`
+	LastBuildDate string    `xml:"lastBuildDate"`
+	Items         []rssItem `xml:"item"`
+}
+
+type rssItem struct {
+	Title       string `xml:"title"`
+	Link        string `xml:"link"`
+	Description string `xml:"description"`
+	PubDate     string `xml:"pubDate"`
+	GUID        string `xml:"guid"`
+}
+
+type rssFeed struct {
+	XMLName xml.Name   `xml:"rss"`
+	Version string     `xml:"version,attr"`
+	Channel rssChannel `xml:"channel"`
+}
+
+func writeRSSFeed(outPath, title, link, description string, items []rssItem) error {
+	feed := rssFeed{
+		Version: "2.0",
+		Channel: rssChannel{
+			Title:         title,
+			Link:          link,
+			Description:   description,
+			Language:      "en-us",
+			LastBuildDate: time.Now().Format(time.RFC1123Z),
+			Items:         items,
+		},
+	}
+	buf := new(bytes.Buffer)
+	buf.WriteString(xml.Header)
+	enc := xml.NewEncoder(buf)
+	enc.Indent("", "  ")
+	if err := enc.Encode(feed); err != nil {
+		return err
+	}
+	if err := os.MkdirAll(filepath.Dir(outPath), 0o755); err != nil {
+		return err
+	}
+	return os.WriteFile(outPath, buf.Bytes(), 0o644)
 }
 
 func main() {
@@ -586,6 +637,55 @@ func main() {
 		if err := os.WriteFile(outPath, buf.Bytes(), 0o644); err != nil {
 			log.Fatal(err)
 		}
+	}
+
+	// Generate RSS feeds
+	const siteURL = "https://jonwear.com"
+
+	// Posts RSS feed
+	var postRSSItems []rssItem
+	for _, a := range arts {
+		desc := ""
+		if a.Summary != nil {
+			desc = *a.Summary
+		}
+		postRSSItems = append(postRSSItems, rssItem{
+			Title:       a.Title,
+			Link:        siteURL + "/articles/" + a.Slug + "/",
+			Description: desc,
+			PubDate:     a.t.Format(time.RFC1123Z),
+			GUID:        siteURL + "/articles/" + a.Slug + "/",
+		})
+	}
+	if err := writeRSSFeed(
+		filepath.Join(outDir, "feed.xml"),
+		"jonwear.com - Posts",
+		siteURL,
+		"Articles and posts from jonwear.com",
+		postRSSItems,
+	); err != nil {
+		log.Fatalf("write posts RSS: %v", err)
+	}
+
+	// Notes RSS feed
+	var noteRSSItems []rssItem
+	for _, n := range notes {
+		noteRSSItems = append(noteRSSItems, rssItem{
+			Title:       n.Title,
+			Link:        siteURL + "/notes/" + n.Slug + "/",
+			Description: n.Title,
+			PubDate:     n.t.Format(time.RFC1123Z),
+			GUID:        siteURL + "/notes/" + n.Slug + "/",
+		})
+	}
+	if err := writeRSSFeed(
+		filepath.Join(outDir, "notes", "feed.xml"),
+		"jonwear.com - Notes",
+		siteURL+"/notes/",
+		"Quick reference notes from jonwear.com",
+		noteRSSItems,
+	); err != nil {
+		log.Fatalf("write notes RSS: %v", err)
 	}
 
 	// simple home index (latest N)
