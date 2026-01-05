@@ -62,4 +62,13 @@ echo "Activate…"
 echo "Close master SSH…"
 "${SSH_BASE[@]}" -O exit "${REMOTE_USER}@${REMOTE_HOST}"
 
+echo "Sending webmentions…"
+if [ -n "$MY_SITE_WEBMENTION_APP" ]; then
+  curl -s -X POST "https://webmention.app/check?token=${MY_SITE_WEBMENTION_APP}&url=https://jonwear.com/feed.xml" > /dev/null
+  curl -s -X POST "https://webmention.app/check?token=${MY_SITE_WEBMENTION_APP}&url=https://jonwear.com/notes/feed.xml" > /dev/null
+  echo "  Webmentions queued (posts + notes)."
+else
+  echo "  Skipped (MY_SITE_WEBMENTION_APP not set)"
+fi
+
 echo "Done."
