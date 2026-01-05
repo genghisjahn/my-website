@@ -18,7 +18,7 @@ go run ./cmd/build
 echo "Converting images to WebP…"
 total_before=0
 total_after=0
-for img in "${LOCAL_PUBLIC}"/images/*.{png,PNG,jpg,JPG,jpeg,JPEG} 2>/dev/null; do
+while IFS= read -r img; do
   [ -f "$img" ] || continue
   size_before=$(stat -f%z "$img")
   total_before=$((total_before + size_before))
@@ -26,7 +26,7 @@ for img in "${LOCAL_PUBLIC}"/images/*.{png,PNG,jpg,JPG,jpeg,JPEG} 2>/dev/null; d
   cwebp -q 80 "$img" -o "$webp" -quiet && rm "$img"
   size_after=$(stat -f%z "$webp")
   total_after=$((total_after + size_after))
-done
+done < <(find "${LOCAL_PUBLIC}/images" -type f \( -iname "*.png" -o -iname "*.jpg" -o -iname "*.jpeg" \) 2>/dev/null)
 if [ $total_before -gt 0 ]; then
   saved=$((total_before - total_after))
   pct=$((saved * 100 / total_before))
