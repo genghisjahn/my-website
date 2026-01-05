@@ -403,15 +403,23 @@ func main() {
 
 	// Render articles
 	for _, a := range arts {
+		// Convert hero image to WebP
+		var heroWebP *Hero
+		if a.Hero != nil {
+			heroWebP = &Hero{
+				Src: toWebP(a.Hero.Src),
+				Alt: a.Hero.Alt,
+			}
+		}
 		av := articleView{
 			Title:        a.Title,
 			Date:         a.Date,
 			DateHuman:    humanDate(a.t),
 			Author:       a.Author,
 			Tags:         a.Tags,
-			ContentHTML:  template.HTML(a.ContentHTML),
+			ContentHTML:  template.HTML(convertContentImagesToWebP(a.ContentHTML)),
 			CanonicalURL: a.CanonicalURL,
-			Hero:         a.Hero,
+			Hero:         heroWebP,
 			Prev:         a.Prev,
 			Next:         a.Next,
 		}
@@ -511,7 +519,7 @@ func main() {
 			Author:      n.Author,
 			Tags:        n.Tags,
 			Source:      n.Source,
-			ContentHTML: template.HTML(n.ContentHTML),
+			ContentHTML: template.HTML(convertContentImagesToWebP(n.ContentHTML)),
 		}
 		out := new(bytes.Buffer)
 		if err := noteTpl.Execute(out, nv); err != nil {
@@ -748,4 +756,21 @@ func humanMonth(key string) string {
 		return key
 	}
 	return t.Format("January 2006")
+}
+
+// toWebP converts image path extensions to .webp
+func toWebP(path string) string {
+	for _, ext := range []string{".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"} {
+		if strings.HasSuffix(path, ext) {
+			return strings.TrimSuffix(path, ext) + ".webp"
+		}
+	}
+	return path
+}
+
+// convertContentImagesToWebP replaces image extensions in HTML content
+var reImageSrc = regexp.MustCompile(`(src=["']/images/[^"']+)\.(png|PNG|jpg|JPG|jpeg|JPEG)(["'])`)
+
+func convertContentImagesToWebP(html string) string {
+	return reImageSrc.ReplaceAllString(html, "${1}.webp${3}")
 }
