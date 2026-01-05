@@ -205,3 +205,41 @@ input[type="checkbox"]:checked::after {
 .page-info {
   color: var(--muted);
 }
+
+/* Webmentions / Facepile */
+.webmentions {
+  margin: 2rem 22px;
+  padding: 1rem 0;
+  border-top: 1px solid var(--rule);
+}
+
+.webmentions h3 {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+.facepile {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.facepile-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--cyan);
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.facepile-avatar:hover {
+  transform: scale(1.1);
+  border-color: var(--mag);
+}
+
+.no-mentions {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
