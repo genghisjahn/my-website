@@ -9,7 +9,7 @@
     <link rel="alternate" type="application/rss+xml" title="Notes" href="/notes/feed.xml">
     <link rel="webmention" href="https://webmention.io/jonwear.com/webmention">
     <link rel="pingback" href="https://webmention.io/jonwear.com/xmlrpc">
-    <link rel="stylesheet" href="/css/retro-sci-fi.css?v=13">
+    <link rel="stylesheet" href="/css/retro-sci-fi.css?v=14">
     <link rel="icon" href="/favicon.ico?v=2" sizes="any">
     <link rel="icon" type="image/png" href="/favicon-32x32.png?v=2" sizes="32x32">
     <link rel="icon" type="image/png" href="/favicon-16x16.png?v=2" sizes="16x16">
@@ -21,19 +21,19 @@
 <body>
   <div class="wrap">
     <div class="crt">
+      <nav class="site-nav">
+        <a href="/">Home</a> · <a href="/archive/">Post Archive</a> / <a href="/feed.xml">RSS</a> · <a href="/notes/">Notes Archive</a> / <a href="/notes/feed.xml">RSS</a>
+      </nav>
       <article class="h-entry">
       <header>
         <h1 class="p-name">{{ .Title }}</h1>
-        <p class="byline">By <span class="p-author">{{ .Author.Name }}</span> · <time class="dt-published" datetime="{{ .Date }}">{{ .DateHuman }}</time></p>
+        <p class="byline">By <a class="p-author h-card" href="https://jonwear.com"><img class="u-photo" src="/images/jon2.webp" alt="{{ .Author.Name }}" style="display:none"><span class="p-name">{{ .Author.Name }}</span></a> · <time class="dt-published" datetime="{{ .Date }}">{{ .DateHuman }}</time></p>
         {{- if .Source }}
         <p class="source">Source: {{ if isURL .Source }}<a href="{{ deref .Source }}">{{ deref .Source }}</a>{{ else }}{{ deref .Source }}{{ end }}</p>
         {{- end }}
       </header>
 
       <div class="rule" aria-hidden="true"></div>
-      <nav class="site-nav">
-        <a href="/">Home</a> · <a href="/archive/">Post Archive</a> / <a href="/feed.xml">RSS</a> · <a href="/notes/">Notes Archive</a> / <a href="/notes/feed.xml">RSS</a>
-      </nav>
        <div class="e-content">
           {{ .ContentHTML }}
       </div>
@@ -47,9 +47,61 @@
       </nav>
     {{- end }}
 
+      <section id="webmentions" class="webmentions">
+        <h3>Mentions</h3>
+        <div id="facepile" class="facepile"></div>
+      </section>
+
       <footer>
         <a href="/">Home</a> · <a href="/archive/">Post Archive</a> / <a href="/feed.xml">RSS</a> · <a href="/notes/">Notes Archive</a> / <a href="/notes/feed.xml">RSS</a>
       </footer>
+      <script>
+      (function() {
+        var url = encodeURIComponent(window.location.href.replace(/\/$/, '') + '/');
+        fetch('https://webmention.io/api/mentions.jf2?target=' + url)
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            var facepile = document.getElementById('facepile');
+            if (!data.children || data.children.length === 0) {
+              facepile.innerHTML = '<p class="no-mentions">No mentions yet.</p>';
+              return;
+            }
+            var seen = {};
+            data.children.forEach(function(mention) {
+              var author = mention.author;
+              var key = (author && author.url) || mention.url || mention['wm-id'];
+              if (seen[key]) return;
+              seen[key] = true;
+
+              var el;
+              if (author && author.photo) {
+                el = document.createElement('img');
+                el.src = author.photo;
+                el.alt = author.name || 'Anonymous';
+                el.title = author.name || 'Anonymous';
+                el.className = 'facepile-avatar';
+              } else {
+                el = document.createElement('span');
+                el.className = 'facepile-name';
+                el.textContent = (author && author.name) || mention.name || 'Someone';
+                el.title = mention.url || '';
+              }
+
+              var linkUrl = (author && author.url) || mention.url;
+              if (linkUrl) {
+                var link = document.createElement('a');
+                link.href = linkUrl;
+                link.rel = 'nofollow';
+                link.appendChild(el);
+                facepile.appendChild(link);
+              } else {
+                facepile.appendChild(el);
+              }
+            });
+          })
+          .catch(function() {});
+      })();
+      </script>
     </div>
   </div>
 </body>
