@@ -94,12 +94,13 @@ type markdownArticle struct {
 
 // Note represents a short public note (like a gist)
 type Note struct {
-	Slug        string `yaml:"slug"`
-	Title       string `yaml:"title"`
-	Date        string `yaml:"date"`
-	Author      Author `yaml:"author"`
-	Tags        []Tag  `yaml:"tags"`
-	Draft       bool   `yaml:"draft"`
+	Slug        string  `yaml:"slug"`
+	Title       string  `yaml:"title"`
+	Date        string  `yaml:"date"` // YYYY-MM-DD or YYYY-MM-DDTHH:MM
+	Author      Author  `yaml:"author"`
+	Tags        []Tag   `yaml:"tags"`
+	Source      *string `yaml:"source"` // optional: URL, book name, or person
+	Draft       bool    `yaml:"draft"`
 	ContentHTML string
 	t           time.Time
 }
@@ -123,6 +124,18 @@ func mustTemplate(path string) *template.Template {
 	// allow raw HTML insertion via template.HTML
 	funcs := template.FuncMap{
 		"split": strings.Split,
+		"isURL": func(s *string) bool {
+			if s == nil {
+				return false
+			}
+			return strings.HasPrefix(*s, "http://") || strings.HasPrefix(*s, "https://")
+		},
+		"deref": func(s *string) string {
+			if s == nil {
+				return ""
+			}
+			return *s
+		},
 	}
 	tpl, err := template.New(filepath.Base(path)).Funcs(funcs).Parse(string(b))
 	if err != nil {
@@ -150,6 +163,20 @@ func mustParseDate(s string) time.Time {
 	t, err := time.Parse("2006-01-02", s)
 	if err != nil {
 		log.Fatalf("bad date %q: %v", s, err)
+	}
+	return t
+}
+
+func mustParseDateTime(s string) time.Time {
+	// Try datetime format first (YYYY-MM-DDTHH:MM)
+	t, err := time.Parse("2006-01-02T15:04", s)
+	if err == nil {
+		return t
+	}
+	// Fall back to date-only format (YYYY-MM-DD)
+	t, err = time.Parse("2006-01-02", s)
+	if err != nil {
+		log.Fatalf("bad date/datetime %q: %v", s, err)
 	}
 	return t
 }
@@ -190,6 +217,7 @@ type noteView struct {
 	DateHuman   string
 	Author      Author
 	Tags        []Tag
+	Source      *string
 	ContentHTML template.HTML
 }
 
@@ -412,7 +440,7 @@ func main() {
 				return err
 			}
 			note.ContentHTML = htmlBuf.String()
-			note.t = mustParseDate(note.Date)
+			note.t = mustParseDateTime(note.Date)
 			notes = append(notes, note)
 			return nil
 		})
@@ -431,6 +459,7 @@ func main() {
 			DateHuman:   humanDate(n.t),
 			Author:      n.Author,
 			Tags:        n.Tags,
+			Source:      n.Source,
 			ContentHTML: template.HTML(n.ContentHTML),
 		}
 		out := new(bytes.Buffer)

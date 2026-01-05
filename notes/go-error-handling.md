@@ -1,7 +1,7 @@
 ---
 slug: go-error-handling
 title: Go Error Handling Pattern
-date: 2026-01-05
+date: 2026-01-05T14:00
 author:
   name: Jon Wear
 tags:
@@ -9,6 +9,7 @@ tags:
     slug: go
   - name: tips
     slug: tips
+source: https://go.dev/blog/error-handling-and-go
 draft: false
 ---
 
