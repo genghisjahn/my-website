@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -91,9 +92,24 @@ type markdownArticle struct {
 	ReadingTimeMin *int    `yaml:"reading_time_min"`
 }
 
+// Note represents a short public note (like a gist)
+type Note struct {
+	Slug        string  `yaml:"slug"`
+	Title       string  `yaml:"title"`
+	Date        string  `yaml:"date"` // YYYY-MM-DD or YYYY-MM-DDTHH:MM
+	Author      Author  `yaml:"author"`
+	Tags        []Tag   `yaml:"tags"`
+	Source      *string `yaml:"source"` // optional: URL, book name, or person
+	Draft       bool    `yaml:"draft"`
+	ContentHTML string
+	t           time.Time
+}
+
 var (
-	articleTpl *template.Template
-	listTpl    *template.Template
+	articleTpl  *template.Template
+	listTpl     *template.Template
+	noteTpl     *template.Template
+	noteListTpl *template.Template
 
 	reScriptStyle = regexp.MustCompile(`(?is)<script[^>]*>.*?</script>|<style[^>]*>.*?</style>`)
 	reTags        = regexp.MustCompile(`(?s)<[^>]+>`)
@@ -108,6 +124,18 @@ func mustTemplate(path string) *template.Template {
 	// allow raw HTML insertion via template.HTML
 	funcs := template.FuncMap{
 		"split": strings.Split,
+		"isURL": func(s *string) bool {
+			if s == nil {
+				return false
+			}
+			return strings.HasPrefix(*s, "http://") || strings.HasPrefix(*s, "https://")
+		},
+		"deref": func(s *string) string {
+			if s == nil {
+				return ""
+			}
+			return *s
+		},
 	}
 	tpl, err := template.New(filepath.Base(path)).Funcs(funcs).Parse(string(b))
 	if err != nil {
@@ -139,6 +167,20 @@ func mustParseDate(s string) time.Time {
 	return t
 }
 
+func mustParseDateTime(s string) time.Time {
+	// Try datetime format first (YYYY-MM-DDTHH:MM)
+	t, err := time.Parse("2006-01-02T15:04", s)
+	if err == nil {
+		return t
+	}
+	// Fall back to date-only format (YYYY-MM-DD)
+	t, err = time.Parse("2006-01-02", s)
+	if err != nil {
+		log.Fatalf("bad date/datetime %q: %v", s, err)
+	}
+	return t
+}
+
 func humanDate(t time.Time) string {
 	return t.Format("January 2, 2006")
 }
@@ -161,6 +203,7 @@ type listItem struct {
 	URL       string
 	ISODate   string
 	HumanDate string
+	Type      string // "article" or "note"
 }
 type listView struct {
 	Title    string
@@ -168,12 +211,35 @@ type listView struct {
 	Items    []listItem
 }
 
+type noteView struct {
+	Title       string
+	Date        string
+	DateHuman   string
+	Author      Author
+	Tags        []Tag
+	Source      *string
+	ContentHTML template.HTML
+}
+
+type paginatedListView struct {
+	Title       string
+	Subtitle    string
+	Items       []listItem
+	CurrentPage int
+	TotalPages  int
+	PrevURL     string
+	NextURL     string
+}
+
 func main() {
 	root := "."
 	srcDir := filepath.Join(root, "articles")
+	notesSrcDir := filepath.Join(root, "notes")
 	outDir := filepath.Join(root, "public")
 	articleTpl = mustTemplate(filepath.Join(root, "templates", "article.html.tmpl"))
 	listTpl = mustTemplate(filepath.Join(root, "templates", "list.html.tmpl"))
+	noteTpl = mustTemplate(filepath.Join(root, "templates", "note.html.tmpl"))
+	noteListTpl = mustTemplate(filepath.Join(root, "templates", "note_list.html.tmpl"))
 
 	var arts []Article
 	err := filepath.WalkDir(srcDir, func(path string, d fs.DirEntry, err error) error {
@@ -315,6 +381,7 @@ func main() {
 			URL:       "/articles/" + a.Slug + "/",
 			ISODate:   a.Date,
 			HumanDate: humanDate(a.t),
+			Type:      "article",
 		}
 
 		// tags
@@ -328,6 +395,101 @@ func main() {
 		// archive buckets
 		ym := a.t.Format("2006/01")
 		ymMap[ym] = append(ymMap[ym], item)
+	}
+
+	// Process notes
+	var notes []Note
+	if dirExists(notesSrcDir) {
+		err = filepath.WalkDir(notesSrcDir, func(path string, d fs.DirEntry, err error) error {
+			if err != nil || d.IsDir() {
+				return err
+			}
+			if !strings.HasSuffix(d.Name(), ".md") {
+				return nil
+			}
+			b, err := os.ReadFile(path)
+			if err != nil {
+				return err
+			}
+			content := string(b)
+			parts := strings.SplitN(content, "---", 3)
+			if len(parts) < 3 {
+				return nil // skip invalid
+			}
+			var note Note
+			if err := yaml.Unmarshal([]byte(parts[1]), &note); err != nil {
+				return err
+			}
+			if note.Draft {
+				return nil
+			}
+			htmlBuf := new(bytes.Buffer)
+			md := goldmark.New(
+				goldmark.WithExtensions(
+					extension.Strikethrough,
+					extension.Table,
+					extension.TaskList,
+					extension.Footnote,
+				),
+				goldmark.WithRendererOptions(
+					html.WithUnsafe(),
+					html.WithXHTML(),
+				),
+			)
+			if err := md.Convert([]byte(parts[2]), htmlBuf); err != nil {
+				return err
+			}
+			note.ContentHTML = htmlBuf.String()
+			note.t = mustParseDateTime(note.Date)
+			notes = append(notes, note)
+			return nil
+		})
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	sort.Slice(notes, func(i, j int) bool { return notes[i].t.After(notes[j].t) })
+
+	// Render notes
+	var noteItems []listItem
+	for _, n := range notes {
+		nv := noteView{
+			Title:       n.Title,
+			Date:        n.Date,
+			DateHuman:   humanDate(n.t),
+			Author:      n.Author,
+			Tags:        n.Tags,
+			Source:      n.Source,
+			ContentHTML: template.HTML(n.ContentHTML),
+		}
+		out := new(bytes.Buffer)
+		if err := noteTpl.Execute(out, nv); err != nil {
+			log.Fatalf("render note %s: %v", n.Slug, err)
+		}
+		ndir := filepath.Join(outDir, "notes", n.Slug)
+		if err := os.MkdirAll(ndir, 0o755); err != nil {
+			log.Fatal(err)
+		}
+		if err := os.WriteFile(filepath.Join(ndir, "index.html"), out.Bytes(), 0o644); err != nil {
+			log.Fatal(err)
+		}
+
+		item := listItem{
+			Title:     n.Title,
+			URL:       "/notes/" + n.Slug + "/",
+			ISODate:   n.Date,
+			HumanDate: humanDate(n.t),
+			Type:      "note",
+		}
+		noteItems = append(noteItems, item)
+
+		// add to tags
+		for _, tg := range n.Tags {
+			entry := tagMap[tg.Slug]
+			entry.Name = tg.Name
+			entry.Items = append(entry.Items, item)
+			tagMap[tg.Slug] = entry
+		}
 	}
 
 	// Render tag pages
@@ -370,6 +532,61 @@ func main() {
 		Subtitle: "By month",
 		Items:    idxItems,
 	})
+
+	// Render notes list with pagination
+	const notesPerPage = 20
+	totalNotePages := (len(noteItems) + notesPerPage - 1) / notesPerPage
+	if totalNotePages < 1 {
+		totalNotePages = 1
+	}
+	for page := 1; page <= totalNotePages; page++ {
+		start := (page - 1) * notesPerPage
+		end := start + notesPerPage
+		if end > len(noteItems) {
+			end = len(noteItems)
+		}
+		pageItems := noteItems[start:end]
+
+		var prevURL, nextURL string
+		if page > 1 {
+			if page == 2 {
+				prevURL = "/notes/"
+			} else {
+				prevURL = "/notes/page/" + strconv.Itoa(page-1) + "/"
+			}
+		}
+		if page < totalNotePages {
+			nextURL = "/notes/page/" + strconv.Itoa(page+1) + "/"
+		}
+
+		plv := paginatedListView{
+			Title:       "Notes",
+			Subtitle:    "Quick reference notes",
+			Items:       pageItems,
+			CurrentPage: page,
+			TotalPages:  totalNotePages,
+			PrevURL:     prevURL,
+			NextURL:     nextURL,
+		}
+
+		var outPath string
+		if page == 1 {
+			outPath = filepath.Join(outDir, "notes", "index.html")
+		} else {
+			outPath = filepath.Join(outDir, "notes", "page", strconv.Itoa(page), "index.html")
+		}
+
+		buf := new(bytes.Buffer)
+		if err := noteListTpl.Execute(buf, plv); err != nil {
+			log.Fatalf("render notes list page %d: %v", page, err)
+		}
+		if err := os.MkdirAll(filepath.Dir(outPath), 0o755); err != nil {
+			log.Fatal(err)
+		}
+		if err := os.WriteFile(outPath, buf.Bytes(), 0o644); err != nil {
+			log.Fatal(err)
+		}
+	}
 
 	// simple home index (latest N)
 	var homeItems []listItem
