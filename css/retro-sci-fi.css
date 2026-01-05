@@ -34,6 +34,7 @@ article li time{display:inline-block;width:11em}
 .rule{height:2px;background:linear-gradient(90deg,var(--cyan),transparent);border-radius:2px;margin:14px 22px}
 .tags{display:flex;flex-wrap:wrap;gap:10px;padding:0 22px 22px}
 .tag{font-size:.85rem;padding:.35rem .65rem;border-radius:999px;color:#031321;text-decoration:none;background:linear-gradient(90deg,var(--cyan),var(--mag));box-shadow:0 0 20px rgba(0,255,240,.25)}
+.site-nav{padding:14px 22px;color:var(--muted);font-size:.9rem}
 footer{padding:14px 22px 22px;color:var(--muted);font-size:.9rem}
 a{color:var(--cyan)}
 u {

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>{{ .Title }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/css/retro-sci-fi.css?v=11">
+    <link rel="stylesheet" href="/css/retro-sci-fi.css?v=12">
     <link rel="icon" href="/favicon.ico?v=1" sizes="any">
     <link rel="icon" type="image/png" href="/favicon-32x32.png?v=1" sizes="32x32">
     <link rel="icon" type="image/png" href="/favicon-16x16.png?v=1" sizes="16x16">
@@ -20,6 +20,9 @@
         {{- if .Subtitle }}<p class="byline"><a href='mailto:{{ .Subtitle }}'>{{ .Subtitle }}</a></p>{{ end }}
       </header>
       <div class="rule" aria-hidden="true"></div>
+      <nav class="site-nav">
+        <a href="/">Home</a> · <a href="/archive/">Post Archive</a> · <a href="/notes/">Notes Archive</a>
+      </nav>
       <div class="panel">
           <strong>Day of Year:</strong>
           <div class="meter" aria-label="Day of Year"><span id="dayOfYearBar"></span></div>
@@ -48,7 +51,7 @@
         </ul>
       </article>
       <footer>
-        <a href="/">Home</a> · <a href="/notes/">Notes</a>
+        <a href="/">Home</a> · <a href="/archive/">Post Archive</a> · <a href="/notes/">Notes Archive</a>
       </footer>
     </div>
   </div>
