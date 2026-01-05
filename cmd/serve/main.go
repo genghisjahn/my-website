@@ -1,8 +1,10 @@
 package main
 
 import (
+	"compress/gzip"
 	"context"
 	"flag"
+	"io"
 	"log"
 	"mime"
 	"net/http"
@@ -28,12 +30,12 @@ func main() {
 	mux := http.NewServeMux()
 
 	// / -> public
-	mux.Handle("/", logWrap(cacheWrap(http.FileServer(http.Dir(*publicDir)))))
+	mux.Handle("/", gzipWrap(logWrap(cacheWrap(http.FileServer(http.Dir(*publicDir))))))
 
 	// /css -> css
 	mux.Handle("/css/",
-		logWrap(cacheWrap(http.StripPrefix("/css/",
-			http.FileServer(http.Dir(*cssDir))))))
+		gzipWrap(logWrap(cacheWrap(http.StripPrefix("/css/",
+			http.FileServer(http.Dir(*cssDir)))))))
 
 	// /images -> images (if present)
 	if dirExists(*imagesDir) {
@@ -74,8 +76,9 @@ func main() {
 
 func cacheWrap(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if hasExt(r.URL.Path, ".css", ".js", ".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp", ".ico") {
+		if hasExt(r.URL.Path, ".css", ".js", ".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp", ".ico", ".woff", ".woff2", ".xml", ".webmanifest") {
 			w.Header().Set("Cache-Control", "public, max-age=31536000, immutable")
+			w.Header().Set("Expires", time.Now().AddDate(1, 0, 0).UTC().Format(http.TimeFormat))
 		} else {
 			w.Header().Set("Cache-Control", "no-cache")
 		}
@@ -111,4 +114,41 @@ func abs(p string) string {
 		return p
 	}
 	return a
+}
+
+// gzip compression middleware
+func gzipWrap(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Skip if client doesn't accept gzip
+		if !strings.Contains(r.Header.Get("Accept-Encoding"), "gzip") {
+			next.ServeHTTP(w, r)
+			return
+		}
+		// Only compress compressible types
+		if !isCompressible(r.URL.Path) {
+			next.ServeHTTP(w, r)
+			return
+		}
+
+		w.Header().Set("Content-Encoding", "gzip")
+		w.Header().Del("Content-Length") // Length changes after compression
+
+		gz := gzip.NewWriter(w)
+		defer gz.Close()
+
+		next.ServeHTTP(&gzipResponseWriter{ResponseWriter: w, Writer: gz}, r)
+	})
+}
+
+type gzipResponseWriter struct {
+	http.ResponseWriter
+	io.Writer
+}
+
+func (g *gzipResponseWriter) Write(b []byte) (int, error) {
+	return g.Writer.Write(b)
+}
+
+func isCompressible(path string) bool {
+	return hasExt(path, ".html", ".css", ".js", ".json", ".xml", ".svg", ".txt", ".webmanifest")
 }
