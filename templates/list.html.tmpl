@@ -43,12 +43,12 @@
       <article>
         <ul>
           {{- range .Items }}
-          <li><time datetime="{{ .ISODate }}">{{ .HumanDate }}</time> · <a href="{{ .URL }}">{{ .Title }}</a></li>
+          <li><time datetime="{{ .ISODate }}">{{ .HumanDate }}</time> · {{ if eq .Type "note" }}<span class="type-badge">note</span> {{ end }}<a href="{{ .URL }}">{{ .Title }}</a></li>
           {{- end }}
         </ul>
       </article>
       <footer>
-        <a href="/">Home</a>
+        <a href="/">Home</a> · <a href="/notes/">Notes</a>
       </footer>
     </div>
   </div>
