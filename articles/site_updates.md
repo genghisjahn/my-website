@@ -9,7 +9,7 @@ tags:
   - name: web
     slug: web
 hero:
-  src: /images/llm_danger.png
+  src: /images/site_updates_1.png
   alt: Site Updates
 css: /css/retro-sci-fi.css
 draft: false
