@@ -181,9 +181,14 @@ func custom404Handler(dir string) http.Handler {
 		}
 
 		// Serve custom 404 page with 200 status to bypass Cloudflare interception
-		notFoundPage := filepath.Join(dir, "404.html")
-		content, err := os.ReadFile(notFoundPage)
-		if err != nil {
+		notFoundFile, openErr := fs.Open("/404.html")
+		if openErr != nil {
+			http.NotFound(w, r)
+			return
+		}
+		defer notFoundFile.Close()
+		content, readErr := io.ReadAll(notFoundFile)
+		if readErr != nil {
 			http.NotFound(w, r)
 			return
 		}

@@ -25,8 +25,8 @@ echo "Binary built at $OUTPUT_BINARY"
 
 # Copy the binary to the remote server
 
-echo "Copying binary to ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_DIR}..."
-scp -o ControlPath=/tmp/ssh_mux_$REMOTE_HOST "$OUTPUT_BINARY" "${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_DIR}/"
+echo "Copying binary to ${REMOTE_USER}@${REMOTE_HOST}:~/web_server/..."
+scp -o ControlPath=/tmp/ssh_mux_$REMOTE_HOST "$OUTPUT_BINARY" "${REMOTE_USER}@${REMOTE_HOST}:~/web_server/"
 rm "$OUTPUT_BINARY"
 
 echo "Starting remote server..."
