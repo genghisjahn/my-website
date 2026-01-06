@@ -1,7 +1,7 @@
 ---
 slug: webmention-tutorial-reference
 title: Webmention Tutorial by Reilly Spitzfaden
-date: 2026-01-05
+date: 2026-01-05T15:00
 author:
   name: Jon Wear
 tags:
