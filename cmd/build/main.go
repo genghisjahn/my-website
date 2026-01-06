@@ -143,7 +143,7 @@ func mustTemplate(path string) *template.Template {
 		log.Fatalf("parse template %s: %v", path, err)
 	}
 	// Parse partials
-	partials := []string{"styles.html.tmpl", "favicons.html.tmpl", "feeds.html.tmpl", "webmention.html.tmpl", "theme-toggle.html.tmpl"}
+	partials := []string{"styles.html.tmpl", "favicons.html.tmpl", "feeds.html.tmpl", "webmention.html.tmpl", "theme-toggle.html.tmpl", "nav.html.tmpl"}
 	for _, partial := range partials {
 		partialPath := filepath.Join(filepath.Dir(path), partial)
 		if _, err := os.Stat(partialPath); err == nil {
