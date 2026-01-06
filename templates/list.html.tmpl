@@ -4,16 +4,11 @@
   <meta charset="utf-8">
   <title>{{ .Title }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="alternate" type="application/rss+xml" title="Posts" href="/feed.xml">
-    <link rel="alternate" type="application/rss+xml" title="Notes" href="/notes/feed.xml">
-    <link rel="webmention" href="https://webmention.io/jonwear.com/webmention">
-    <link rel="pingback" href="https://webmention.io/jonwear.com/xmlrpc">
+    {{template "feeds"}}
+    {{template "webmention"}}
     <link rel="me" href="mailto:jon@jonwear.com">
-    <link rel="stylesheet" href="/css/retro-sci-fi.css?v=17">
-    <link rel="icon" href="/favicon.ico?v=1" sizes="any">
-    <link rel="icon" type="image/png" href="/favicon-32x32.png?v=1" sizes="32x32">
-    <link rel="icon" type="image/png" href="/favicon-16x16.png?v=1" sizes="16x16">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=1" sizes="180x180">
+    {{template "styles"}}
+    {{template "favicons"}}
     <link rel="manifest" href="/site.webmanifest?v=1">
     <meta name="theme-color" content="#0a0e1a">
 
@@ -36,6 +31,7 @@
         {{- if .Subtitle }}<p class="byline"><a href='mailto:{{ .Subtitle }}'>{{ .Subtitle }}</a></p>{{ end }}
       </header>
       <div class="rule" aria-hidden="true"></div>
+      {{template "theme-toggle"}}
       <nav class="site-nav">
         <a href="/">Home</a> · <a href="/archive/">Post Archive</a> / <a href="/feed.xml">RSS</a> · <a href="/notes/">Notes Archive</a> / <a href="/notes/feed.xml">RSS</a>
       </nav>
