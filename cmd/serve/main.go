@@ -29,8 +29,8 @@ func main() {
 
 	mux := http.NewServeMux()
 
-	// / -> public
-	mux.Handle("/", gzipWrap(logWrap(cacheWrap(http.FileServer(http.Dir(*publicDir))))))
+	// / -> public (with custom 404 handling)
+	mux.Handle("/", gzipWrap(logWrap(cacheWrap(custom404Handler(*publicDir)))))
 
 	// /css -> css
 	mux.Handle("/css/",
@@ -151,4 +151,48 @@ func (g *gzipResponseWriter) Write(b []byte) (int, error) {
 
 func isCompressible(path string) bool {
 	return hasExt(path, ".html", ".css", ".js", ".json", ".xml", ".svg", ".txt", ".webmanifest")
+}
+
+// custom404Handler serves files from dir, falling back to 404.html for missing files
+func custom404Handler(dir string) http.Handler {
+	fs := http.Dir(dir)
+	fileServer := http.FileServer(fs)
+
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		path := r.URL.Path
+
+		// Try to open the requested file
+		f, err := fs.Open(path)
+		if err == nil {
+			f.Close()
+			fileServer.ServeHTTP(w, r)
+			return
+		}
+
+		// Try with index.html for directories
+		if !strings.HasSuffix(path, "/") {
+			path = path + "/"
+		}
+		f, err = fs.Open(path + "index.html")
+		if err == nil {
+			f.Close()
+			fileServer.ServeHTTP(w, r)
+			return
+		}
+
+		// Serve custom 404 page with 200 status to bypass Cloudflare interception
+		notFoundFile, openErr := fs.Open("/404.html")
+		if openErr != nil {
+			http.NotFound(w, r)
+			return
+		}
+		defer notFoundFile.Close()
+		content, readErr := io.ReadAll(notFoundFile)
+		if readErr != nil {
+			http.NotFound(w, r)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		w.Write(content)
+	})
 }

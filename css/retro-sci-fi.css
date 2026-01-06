@@ -258,3 +258,35 @@ input[type="checkbox"]:checked::after {
   font-size: 0.9rem;
   margin: 0;
 }
+
+/* 404 Error Page */
+.error-page {
+  text-align: center;
+  padding: 2rem 22px;
+}
+
+.error-page h1 {
+  font-size: clamp(4rem, 15vw, 8rem);
+  margin: 0;
+  line-height: 1;
+  text-shadow: 0 0 10px rgba(0, 255, 240, 0.5), 0 0 30px rgba(255, 52, 210, 0.4);
+}
+
+.error-subtitle {
+  color: var(--mag);
+  font-size: 1.2rem;
+  letter-spacing: 0.3em;
+  margin: 1rem 0 2rem;
+}
+
+.error-robot {
+  max-width: calc(100% - 44px);
+  max-height: 280px;
+  width: auto;
+  height: auto;
+  margin: 1.5rem auto;
+  display: block;
+  border-radius: 12px;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.5);
+  object-fit: contain;
+}

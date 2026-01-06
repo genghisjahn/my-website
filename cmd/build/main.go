@@ -187,6 +187,7 @@ func humanDate(t time.Time) string {
 }
 
 type articleView struct {
+	Slug         string
 	Title        string
 	Date         string
 	DateHuman    string
@@ -213,6 +214,7 @@ type listView struct {
 }
 
 type noteView struct {
+	Slug        string
 	Title       string
 	Date        string
 	DateHuman   string
@@ -412,6 +414,7 @@ func main() {
 			}
 		}
 		av := articleView{
+			Slug:         a.Slug,
 			Title:        a.Title,
 			Date:         a.Date,
 			DateHuman:    humanDate(a.t),
@@ -513,6 +516,7 @@ func main() {
 	var noteItems []listItem
 	for _, n := range notes {
 		nv := noteView{
+			Slug:        n.Slug,
 			Title:       n.Title,
 			Date:        n.Date,
 			DateHuman:   humanDate(n.t),
@@ -705,6 +709,17 @@ func main() {
 		Subtitle: "jon@jonwear.com",
 		Items:    homeItems,
 	})
+
+	// Generate 404 page
+	tpl404 := mustTemplate(filepath.Join(root, "templates", "404.html.tmpl"))
+	buf404 := new(bytes.Buffer)
+	if err := tpl404.Execute(buf404, nil); err != nil {
+		log.Fatalf("render 404: %v", err)
+	}
+	if err := os.WriteFile(filepath.Join(outDir, "404.html"), buf404.Bytes(), 0o644); err != nil {
+		log.Fatal(err)
+	}
+
 	if dirExists("css") {
 		if err := copyDir("css", filepath.Join(outDir, "css")); err != nil {
 			log.Fatal(err)
