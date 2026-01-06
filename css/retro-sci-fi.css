@@ -191,6 +191,17 @@ input[type="checkbox"]:checked::after {
     max-width: 100%;
     height: auto;
   }
+  .theme-toggle {
+    position: relative;
+    top: auto;
+    right: auto;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 22px 0;
+  }
+  .site-nav {
+    padding-top: 8px;
+  }
 }
 
 /* Type badge for notes in mixed lists */
