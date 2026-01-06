@@ -13,6 +13,8 @@ REMOTE_USER="${DEPLOY_USER:?Set DEPLOY_USER in .deploy.env or environment}"
 REMOTE_HOST="${DEPLOY_HOST:?Set DEPLOY_HOST in .deploy.env or environment}"
 SSH_PORT="${DEPLOY_PORT:-22}"
 REMOTE_DIR="${DEPLOY_DIR:?Set DEPLOY_DIR in .deploy.env or environment}"
+SERVER_DIR="${DEPLOY_SERVER_DIR:-~/web_server}"
+LISTEN_ADDR="${DEPLOY_LISTEN_ADDR:-0.0.0.0:8088}"
 
 OUTPUT_BINARY="./site_server"
 
@@ -21,7 +23,7 @@ ssh -p "$SSH_PORT" -M -S /tmp/ssh_mux_$REMOTE_HOST -fnNT "${REMOTE_USER}@${REMOT
 
 echo "Stopping any running instance on $REMOTE_HOST..."
 ssh -p "$SSH_PORT" -S /tmp/ssh_mux_$REMOTE_HOST "${REMOTE_USER}@${REMOTE_HOST}" "
-  pkill -f ~/web_server/site_server || echo 'No running process found.'
+  pkill -f ${SERVER_DIR}/site_server || echo 'No running process found.'
 "
 
 echo "Building site_server for linux/amd64..."
@@ -31,18 +33,18 @@ echo "Binary built at $OUTPUT_BINARY"
 
 # Copy the binary to the remote server
 
-echo "Copying binary to ${REMOTE_USER}@${REMOTE_HOST}:~/web_server/..."
-scp -P "$SSH_PORT" -o ControlPath=/tmp/ssh_mux_$REMOTE_HOST "$OUTPUT_BINARY" "${REMOTE_USER}@${REMOTE_HOST}:~/web_server/"
+echo "Copying binary to ${REMOTE_USER}@${REMOTE_HOST}:${SERVER_DIR}/..."
+scp -P "$SSH_PORT" -o ControlPath=/tmp/ssh_mux_$REMOTE_HOST "$OUTPUT_BINARY" "${REMOTE_USER}@${REMOTE_HOST}:${SERVER_DIR}/"
 rm "$OUTPUT_BINARY"
 
 echo "Starting remote server..."
 ssh -p "$SSH_PORT" -S /tmp/ssh_mux_$REMOTE_HOST "${REMOTE_USER}@${REMOTE_HOST}" "
-  nohup ~/web_server/site_server \
+  nohup ${SERVER_DIR}/site_server \
     -public \"$REMOTE_DIR\" \
     -css \"$REMOTE_DIR/css\" \
     -images \"$REMOTE_DIR/images\" \
-    -addr \"0.0.0.0:8088\" \
-    >> ~/web_server/site_server.log 2>&1 < /dev/null &
+    -addr \"$LISTEN_ADDR\" \
+    >> ${SERVER_DIR}/site_server.log 2>&1 < /dev/null &
   disown
 "
 

@@ -13,6 +13,7 @@ REMOTE_USER="${DEPLOY_USER:?Set DEPLOY_USER in .deploy.env or environment}"
 REMOTE_HOST="${DEPLOY_HOST:?Set DEPLOY_HOST in .deploy.env or environment}"
 SSH_PORT="${DEPLOY_PORT:-22}"
 REMOTE_DIR="${DEPLOY_DIR:?Set DEPLOY_DIR in .deploy.env or environment}"
+SITE_URL="${DEPLOY_SITE_URL:?Set DEPLOY_SITE_URL in .deploy.env or environment}"
 LOCAL_PUBLIC="./public"
 
 # Reusable SSH options
@@ -72,8 +73,8 @@ echo "Close master SSH…"
 
 echo "Sending webmentions…"
 if [ -n "${MY_SITE_WEBMENTION_APP:-}" ]; then
-  curl -s -X POST "https://webmention.app/check?token=${MY_SITE_WEBMENTION_APP}&url=https://jonwear.com/feed.xml" > /dev/null &
-  curl -s -X POST "https://webmention.app/check?token=${MY_SITE_WEBMENTION_APP}&url=https://jonwear.com/notes/feed.xml" > /dev/null &
+  curl -s -X POST "https://webmention.app/check?token=${MY_SITE_WEBMENTION_APP}&url=https://${SITE_URL}/feed.xml" > /dev/null &
+  curl -s -X POST "https://webmention.app/check?token=${MY_SITE_WEBMENTION_APP}&url=https://${SITE_URL}/notes/feed.xml" > /dev/null &
   wait
   echo "  Webmentions sent (posts + notes)."
 else
