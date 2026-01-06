@@ -64,9 +64,10 @@ echo "Close master SSH…"
 
 echo "Sending webmentions…"
 if [ -n "$MY_SITE_WEBMENTION_APP" ]; then
-  curl -s -X POST "https://webmention.app/check?token=${MY_SITE_WEBMENTION_APP}&url=https://jonwear.com/feed.xml" > /dev/null
-  curl -s -X POST "https://webmention.app/check?token=${MY_SITE_WEBMENTION_APP}&url=https://jonwear.com/notes/feed.xml" > /dev/null
-  echo "  Webmentions queued (posts + notes)."
+  curl -s -X POST "https://webmention.app/check?token=${MY_SITE_WEBMENTION_APP}&url=https://jonwear.com/feed.xml" > /dev/null &
+  curl -s -X POST "https://webmention.app/check?token=${MY_SITE_WEBMENTION_APP}&url=https://jonwear.com/notes/feed.xml" > /dev/null &
+  wait
+  echo "  Webmentions sent (posts + notes)."
 else
   echo "  Skipped (MY_SITE_WEBMENTION_APP not set)"
 fi
