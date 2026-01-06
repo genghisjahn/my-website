@@ -1,20 +1,26 @@
-
-
 #!/usr/bin/env bash
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Load config file if it exists, env vars override
+if [[ -f "$SCRIPT_DIR/.deploy.env" ]]; then
+  source "$SCRIPT_DIR/.deploy.env"
+fi
+
+# Required config (env vars override config file)
+REMOTE_USER="${DEPLOY_USER:?Set DEPLOY_USER in .deploy.env or environment}"
+REMOTE_HOST="${DEPLOY_HOST:?Set DEPLOY_HOST in .deploy.env or environment}"
+SSH_PORT="${DEPLOY_PORT:-22}"
+REMOTE_DIR="${DEPLOY_DIR:?Set DEPLOY_DIR in .deploy.env or environment}"
+
 OUTPUT_BINARY="./site_server"
 
-# Configuration
-REMOTE_USER="genghisjahn"
-REMOTE_HOST="ryz-2"
-REMOTE_DIR="/home/${REMOTE_USER}/jonwear.com"
-
 echo "Establishing SSH control master connection..."
-ssh -M -S /tmp/ssh_mux_$REMOTE_HOST -fnNT "${REMOTE_USER}@${REMOTE_HOST}"
+ssh -p "$SSH_PORT" -M -S /tmp/ssh_mux_$REMOTE_HOST -fnNT "${REMOTE_USER}@${REMOTE_HOST}"
 
 echo "Stopping any running instance on $REMOTE_HOST..."
-ssh -S /tmp/ssh_mux_$REMOTE_HOST "${REMOTE_USER}@${REMOTE_HOST}" "
+ssh -p "$SSH_PORT" -S /tmp/ssh_mux_$REMOTE_HOST "${REMOTE_USER}@${REMOTE_HOST}" "
   pkill -f ~/web_server/site_server || echo 'No running process found.'
 "
 
@@ -26,11 +32,11 @@ echo "Binary built at $OUTPUT_BINARY"
 # Copy the binary to the remote server
 
 echo "Copying binary to ${REMOTE_USER}@${REMOTE_HOST}:~/web_server/..."
-scp -o ControlPath=/tmp/ssh_mux_$REMOTE_HOST "$OUTPUT_BINARY" "${REMOTE_USER}@${REMOTE_HOST}:~/web_server/"
+scp -P "$SSH_PORT" -o ControlPath=/tmp/ssh_mux_$REMOTE_HOST "$OUTPUT_BINARY" "${REMOTE_USER}@${REMOTE_HOST}:~/web_server/"
 rm "$OUTPUT_BINARY"
 
 echo "Starting remote server..."
-ssh -S /tmp/ssh_mux_$REMOTE_HOST "${REMOTE_USER}@${REMOTE_HOST}" "
+ssh -p "$SSH_PORT" -S /tmp/ssh_mux_$REMOTE_HOST "${REMOTE_USER}@${REMOTE_HOST}" "
   nohup ~/web_server/site_server \
     -public \"$REMOTE_DIR\" \
     -css \"$REMOTE_DIR/css\" \
@@ -40,4 +46,6 @@ ssh -S /tmp/ssh_mux_$REMOTE_HOST "${REMOTE_USER}@${REMOTE_HOST}" "
   disown
 "
 
-ssh -S /tmp/ssh_mux_$REMOTE_HOST -O exit "${REMOTE_USER}@${REMOTE_HOST}"
+ssh -p "$SSH_PORT" -S /tmp/ssh_mux_$REMOTE_HOST -O exit "${REMOTE_USER}@${REMOTE_HOST}"
+
+echo "Done."
