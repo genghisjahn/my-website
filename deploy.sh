@@ -1,10 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REMOTE_USER="genghisjahn"
-REMOTE_HOST="ryz-2"
-SSH_PORT="22"
-REMOTE_DIR="/home/genghisjahn/jonwear.com"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Load config file if it exists, env vars override
+if [[ -f "$SCRIPT_DIR/.deploy.env" ]]; then
+  source "$SCRIPT_DIR/.deploy.env"
+fi
+
+# Required config (env vars override config file)
+REMOTE_USER="${DEPLOY_USER:?Set DEPLOY_USER in .deploy.env or environment}"
+REMOTE_HOST="${DEPLOY_HOST:?Set DEPLOY_HOST in .deploy.env or environment}"
+SSH_PORT="${DEPLOY_PORT:-22}"
+REMOTE_DIR="${DEPLOY_DIR:?Set DEPLOY_DIR in .deploy.env or environment}"
 LOCAL_PUBLIC="./public"
 
 # Reusable SSH options
@@ -63,7 +71,7 @@ echo "Close master SSH…"
 "${SSH_BASE[@]}" -O exit "${REMOTE_USER}@${REMOTE_HOST}"
 
 echo "Sending webmentions…"
-if [ -n "$MY_SITE_WEBMENTION_APP" ]; then
+if [ -n "${MY_SITE_WEBMENTION_APP:-}" ]; then
   curl -s -X POST "https://webmention.app/check?token=${MY_SITE_WEBMENTION_APP}&url=https://jonwear.com/feed.xml" > /dev/null &
   curl -s -X POST "https://webmention.app/check?token=${MY_SITE_WEBMENTION_APP}&url=https://jonwear.com/notes/feed.xml" > /dev/null &
   wait
