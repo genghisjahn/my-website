@@ -7,6 +7,19 @@
 <script>
 (function(){
   var theme = localStorage.getItem('theme') || 'auto';
+  var darkColor = '#0a0e1a';
+  var lightColor = '#f6f9ff';
+  function getEffectiveTheme(t) {
+    if (t === 'auto') {
+      return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    }
+    return t;
+  }
+  function updateThemeColor(t) {
+    var effective = getEffectiveTheme(t);
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', effective === 'light' ? lightColor : darkColor);
+  }
   function apply(t) {
     document.documentElement.classList.remove('theme-dark','theme-light');
     if (t === 'dark') document.documentElement.classList.add('theme-dark');
@@ -14,8 +27,12 @@
     localStorage.setItem('theme', t);
     document.querySelectorAll('.theme-toggle button').forEach(function(b){ b.classList.remove('active'); });
     document.getElementById('theme-' + t).classList.add('active');
+    updateThemeColor(t);
   }
   apply(theme);
+  window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function() {
+    if (localStorage.getItem('theme') === 'auto') updateThemeColor('auto');
+  });
   document.getElementById('theme-auto').onclick = function(){ apply('auto'); };
   document.getElementById('theme-dark').onclick = function(){ apply('dark'); };
   document.getElementById('theme-light').onclick = function(){ apply('light'); };

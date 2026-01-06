@@ -1,6 +1,6 @@
 :root{
   --bg:#0a0e1a; --panel:#0f1326; --fg:#d7eaff; --muted:#9fb1d6;
-  --cyan:#00fff0; --mag:#ff34d2; --rule:#1a234a; --max:70ch;
+  --cyan:#00fff0; --mag:#ff34d2; --rule:#1a234a; --max:70ch; --code-bg:#111628;
 }
 /* Theme selector */
 .theme-toggle{position:absolute;top:10px;right:10px;display:flex;gap:0.3rem;align-items:center;font-size:0.6rem;z-index:100}
@@ -47,26 +47,24 @@ u {
 }
 /* Light theme - auto detect */
 @media (prefers-color-scheme: light){
-  html:not(.theme-dark){--fg:#0a1020;--bg:#f6f9ff;--panel:#eaf2ff;--muted:#3a4a72;--rule:#cfe3ff;--cyan:#0077aa;--mag:#c41897}
+  html:not(.theme-dark){--fg:#0a1020;--bg:#f6f9ff;--panel:#eaf2ff;--muted:#3a4a72;--rule:#cfe3ff;--cyan:#0077aa;--mag:#c41897;--code-bg:#e8f0ff}
   html:not(.theme-dark) body{background:var(--bg);color:var(--fg)}
   html:not(.theme-dark) .crt{background:linear-gradient(180deg,#f0f4ff 0%,#f6f9ff 100%);box-shadow:0 0 0 2px #cfe3ff, 0 20px 60px rgba(0,20,80,.15)}
   html:not(.theme-dark) .crt::before{display:none}
   html:not(.theme-dark) header{background:radial-gradient(1200px 300px at 10% -20%, rgba(0,255,240,.12), transparent 60%),radial-gradient(900px 260px at 100% -10%, rgba(255,52,210,.10), transparent 60%)}
   html:not(.theme-dark) h1{text-shadow:none}
-  html:not(.theme-dark) code{background:#e8f0ff;color:#0066aa}
   html:not(.theme-dark) pre code{background:var(--panel);color:var(--fg)}
   html:not(.theme-dark) tbody tr:nth-child(odd){background-color:rgba(0,50,100,.03)}
   html:not(.theme-dark) tbody tr:hover{background-color:rgba(0,100,200,.08)}
   html:not(.theme-dark) blockquote{box-shadow:inset 0 0 0 1px var(--rule), 0 6px 20px rgba(0,20,80,.1)}
 }
 /* Light theme - forced */
-html.theme-light{--fg:#0a1020;--bg:#f6f9ff;--panel:#eaf2ff;--muted:#3a4a72;--rule:#cfe3ff;--cyan:#0077aa;--mag:#c41897}
+html.theme-light{--fg:#0a1020;--bg:#f6f9ff;--panel:#eaf2ff;--muted:#3a4a72;--rule:#cfe3ff;--cyan:#0077aa;--mag:#c41897;--code-bg:#e8f0ff}
 html.theme-light body{background:var(--bg);color:var(--fg)}
 html.theme-light .crt{background:linear-gradient(180deg,#f0f4ff 0%,#f6f9ff 100%);box-shadow:0 0 0 2px #cfe3ff, 0 20px 60px rgba(0,20,80,.15)}
 html.theme-light .crt::before{display:none}
 html.theme-light header{background:radial-gradient(1200px 300px at 10% -20%, rgba(0,255,240,.12), transparent 60%),radial-gradient(900px 260px at 100% -10%, rgba(255,52,210,.10), transparent 60%)}
 html.theme-light h1{text-shadow:none}
-html.theme-light code{background:#e8f0ff;color:#0066aa}
 html.theme-light pre code{background:var(--panel);color:var(--fg)}
 html.theme-light tbody tr:nth-child(odd){background-color:rgba(0,50,100,.03)}
 html.theme-light tbody tr:hover{background-color:rgba(0,100,200,.08)}
@@ -94,7 +92,7 @@ blockquote::before {
 
 code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  background: #111628;
+  background: var(--code-bg);
   color: var(--cyan);
   padding: 0.15em 0.4em;
   border-radius: 6px;
