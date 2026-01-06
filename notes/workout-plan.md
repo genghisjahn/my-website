@@ -13,7 +13,7 @@ source: me
 draft: false
 ---
 
-# Weekly Training Plan with Fallback Levels
+## Weekly Training Plan with Fallback Levels
 
 This plan is designed to be **failure-tolerant**.  
 The goal is consistency, not perfection.
