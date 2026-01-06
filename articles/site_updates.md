@@ -16,7 +16,7 @@ draft: false
 reading_time_min: 2
 ---
 
-I've read a lot about how blogging can be helpful to one's career, as well as enjoyable in and of itself.  I have no idea who's reading this because I don't have Google Analytics on here or any other analytics ([Website Privacy Report](https://pro.nixondigital.io/preview/jonwear.com)).  I did just add [_web mentions_](https://en.wikipedia.org/wiki/Webmention) using [webmention.io](https://webmention.io) so I guess there is some tracking, but that's only for users who explicitly reference my content, or I reference theirs..
+I've read a lot about how blogging can be helpful to one's career, as well as enjoyable in and of itself.  I have no idea who's reading this because I don't have Google Analytics on here or any other analytics ([Website Privacy Report](https://pro.nixondigital.io/preview/jonwear.com)).  I did just add [_web mentions_](https://en.wikipedia.org/wiki/Webmention) using [webmention.io](https://webmention.io) so I guess there is some tracking, but that's only for users who explicitly reference my content, or I reference theirs.
 
 Also, I've been wanting my own quick-notes reference for a while.  This would mostly be quick and dirty TIL type content, but also just quick notes.  I think of it as articles are things I'm writing with the intention of sharing (whether anyone reads it or not) and Notes are thing I'm writing for my own reference (whether anyone else reads them or not).  There might be a kind of shortcut, postbin-style thing I might add to that, but that would involve interacting with GitHub so I can make sure I don't lose the content.  I'll think about it.
 
