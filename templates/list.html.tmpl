@@ -5,9 +5,11 @@
   <title>{{ .Title }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
     {{template "feeds"}}
-    {{template "webmention"}}
-    <link rel="me" href="mailto:jon@jonwear.com">
-    <link rel="me" href="https://route66.social/@Jon">
+    {{template "webmention" .}}
+    <link rel="me" href="mailto:{{ .Site.AuthorEmail }}">
+    {{- if .Site.AuthorMastodonURL }}
+    <link rel="me" href="{{ .Site.AuthorMastodonURL }}">
+    {{- end }}
     {{template "styles"}}
     {{template "favicons"}}
     <link rel="manifest" href="/site.webmanifest?v=1">
@@ -16,13 +18,13 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="{{ .Title }}">
-    <meta property="og:site_name" content="jonwear.com">
-    <meta property="og:image" content="https://jonwear.com/images/og-default.png">
+    <meta property="og:site_name" content="{{ .Site.Name }}">
+    <meta property="og:image" content="{{ .Site.URL }}{{ .Site.DefaultOGImage }}">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ .Title }}">
-    <meta name="twitter:image" content="https://jonwear.com/images/og-default.png">
+    <meta name="twitter:image" content="{{ .Site.URL }}{{ .Site.DefaultOGImage }}">
 </head>
 <body>
   <div class="wrap">
