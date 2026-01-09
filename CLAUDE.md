@@ -45,3 +45,12 @@ This is a custom static site generator written in Go that produces a personal we
 **CSS cache busting:** When updating `css/retro-sci-fi.css`, increment the `?v=` query parameter in `templates/styles.html.tmpl` to bust browser caches.
 
 **Dependencies:** goldmark (Markdown), gopkg.in/yaml.v3 (YAML frontmatter)
+
+## Content Review Guidelines
+
+When reviewing new or updated articles and notes, watch for:
+- **Jarring endings** - Content that stops abruptly without a natural conclusion
+- **Flow disconnects** - Paragraphs or sections that don't connect logically to what comes before or after
+- **Incomplete thoughts** - Ideas introduced but not followed through
+
+Do not make changes automatically. Flag any concerns for the author to review.

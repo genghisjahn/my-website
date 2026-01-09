@@ -3,3 +3,4 @@ serve
 debug_ss/
 .DS_Store
 .deploy.env
+site.env

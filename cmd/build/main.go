@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"encoding/json"
 	"encoding/xml"
@@ -20,6 +21,84 @@ import (
 	"github.com/yuin/goldmark/renderer/html"
 	"gopkg.in/yaml.v3"
 )
+
+// SiteConfig holds all site-specific configuration
+type SiteConfig struct {
+	URL              string
+	Name             string
+	Description      string
+	AuthorName       string
+	AuthorEmail      string
+	AuthorPhoto      string
+	AuthorFediverse  string
+	AuthorMastodonURL string
+	WebmentionDomain string
+	DefaultOGImage   string
+}
+
+func loadSiteConfig(path string) SiteConfig {
+	cfg := SiteConfig{}
+	f, err := os.Open(path)
+	if err != nil {
+		log.Fatalf("open site config %s: %v", path, err)
+	}
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		line := strings.TrimSpace(scanner.Text())
+		if line == "" || strings.HasPrefix(line, "#") {
+			continue
+		}
+		parts := strings.SplitN(line, "=", 2)
+		if len(parts) != 2 {
+			continue
+		}
+		key := strings.TrimSpace(parts[0])
+		val := strings.TrimSpace(parts[1])
+		// Remove surrounding quotes
+		val = strings.Trim(val, `"'`)
+
+		switch key {
+		case "SITE_URL":
+			cfg.URL = val
+		case "SITE_NAME":
+			cfg.Name = val
+		case "SITE_DESCRIPTION":
+			cfg.Description = val
+		case "AUTHOR_NAME":
+			cfg.AuthorName = val
+		case "AUTHOR_EMAIL":
+			cfg.AuthorEmail = val
+		case "AUTHOR_PHOTO":
+			cfg.AuthorPhoto = val
+		case "AUTHOR_FEDIVERSE":
+			cfg.AuthorFediverse = val
+		case "AUTHOR_MASTODON_URL":
+			cfg.AuthorMastodonURL = val
+		case "WEBMENTION_DOMAIN":
+			cfg.WebmentionDomain = val
+		case "DEFAULT_OG_IMAGE":
+			cfg.DefaultOGImage = val
+		}
+	}
+	if err := scanner.Err(); err != nil {
+		log.Fatalf("read site config: %v", err)
+	}
+
+	// Validate required fields
+	if cfg.URL == "" {
+		log.Fatal("SITE_URL is required in site.env")
+	}
+	if cfg.Name == "" {
+		log.Fatal("SITE_NAME is required in site.env")
+	}
+	if cfg.AuthorName == "" {
+		log.Fatal("AUTHOR_NAME is required in site.env")
+	}
+
+	return cfg
+}
 
 func dirExists(p string) bool { fi, err := os.Stat(p); return err == nil && fi.IsDir() }
 
@@ -202,6 +281,7 @@ func humanDate(t time.Time) string {
 }
 
 type articleView struct {
+	Site         SiteConfig
 	Slug         string
 	Title        string
 	Date         string
@@ -223,12 +303,14 @@ type listItem struct {
 	Type      string // "article" or "note"
 }
 type listView struct {
+	Site     SiteConfig
 	Title    string
 	Subtitle string
 	Items    []listItem
 }
 
 type noteView struct {
+	Site        SiteConfig
 	Slug        string
 	Title       string
 	Date        string
@@ -240,6 +322,7 @@ type noteView struct {
 }
 
 type paginatedListView struct {
+	Site        SiteConfig
 	Title       string
 	Subtitle    string
 	Items       []listItem
@@ -304,6 +387,10 @@ func main() {
 	srcDir := filepath.Join(root, "articles")
 	notesSrcDir := filepath.Join(root, "notes")
 	outDir := filepath.Join(root, "public")
+
+	// Load site configuration
+	siteCfg := loadSiteConfig(filepath.Join(root, "site.env"))
+
 	articleTpl = mustTemplate(filepath.Join(root, "templates", "article.html.tmpl"))
 	listTpl = mustTemplate(filepath.Join(root, "templates", "list.html.tmpl"))
 	noteTpl = mustTemplate(filepath.Join(root, "templates", "note.html.tmpl"))
@@ -429,6 +516,7 @@ func main() {
 			}
 		}
 		av := articleView{
+			Site:         siteCfg,
 			Slug:         a.Slug,
 			Title:        a.Title,
 			Date:         a.Date,
@@ -531,6 +619,7 @@ func main() {
 	var noteItems []listItem
 	for _, n := range notes {
 		nv := noteView{
+			Site:        siteCfg,
 			Slug:        n.Slug,
 			Title:       n.Title,
 			Date:        n.Date,
@@ -573,7 +662,7 @@ func main() {
 	// Render tag pages
 	for slug, v := range tagMap {
 		sort.Slice(v.Items, func(i, j int) bool { return v.Items[i].ISODate > v.Items[j].ISODate })
-		lv := listView{Title: "Tag: " + v.Name, Items: v.Items}
+		lv := listView{Site: siteCfg, Title: "Tag: " + v.Name, Items: v.Items}
 		writeList(listTpl, filepath.Join(outDir, "tag", slug, "index.html"), lv)
 	}
 
@@ -592,7 +681,7 @@ func main() {
 	// month pages
 	for _, m := range months {
 		title := "Archive " + humanMonth(m.Key)
-		lv := listView{Title: title, Items: m.Items}
+		lv := listView{Site: siteCfg, Title: title, Items: m.Items}
 		writeList(listTpl, filepath.Join(outDir, "archive", m.Key, "index.html"), lv)
 	}
 	// archive index
@@ -606,6 +695,7 @@ func main() {
 		})
 	}
 	writeList(listTpl, filepath.Join(outDir, "archive", "index.html"), listView{
+		Site:     siteCfg,
 		Title:    "Archive",
 		Subtitle: "By month",
 		Items:    idxItems,
@@ -638,6 +728,7 @@ func main() {
 		}
 
 		plv := paginatedListView{
+			Site:        siteCfg,
 			Title:       "Notes",
 			Subtitle:    "Quick reference notes",
 			Items:       pageItems,
@@ -667,24 +758,22 @@ func main() {
 	}
 
 	// Generate RSS feeds
-	const siteURL = "https://jonwear.com"
-
 	// Posts RSS feed
 	var postRSSItems []rssItem
 	for _, a := range arts {
 		postRSSItems = append(postRSSItems, rssItem{
 			Title:       a.Title,
-			Link:        siteURL + "/articles/" + a.Slug + "/",
+			Link:        siteCfg.URL + "/articles/" + a.Slug + "/",
 			Description: a.ContentHTML,
 			PubDate:     a.t.Format(time.RFC1123Z),
-			GUID:        siteURL + "/articles/" + a.Slug + "/",
+			GUID:        siteCfg.URL + "/articles/" + a.Slug + "/",
 		})
 	}
 	if err := writeRSSFeed(
 		filepath.Join(outDir, "feed.xml"),
-		"jonwear.com - Posts",
-		siteURL,
-		"Articles and posts from jonwear.com",
+		siteCfg.Name+" - Posts",
+		siteCfg.URL,
+		siteCfg.Description,
 		postRSSItems,
 	); err != nil {
 		log.Fatalf("write posts RSS: %v", err)
@@ -695,17 +784,17 @@ func main() {
 	for _, n := range notes {
 		noteRSSItems = append(noteRSSItems, rssItem{
 			Title:       n.Title,
-			Link:        siteURL + "/notes/" + n.Slug + "/",
+			Link:        siteCfg.URL + "/notes/" + n.Slug + "/",
 			Description: n.ContentHTML,
 			PubDate:     n.t.Format(time.RFC1123Z),
-			GUID:        siteURL + "/notes/" + n.Slug + "/",
+			GUID:        siteCfg.URL + "/notes/" + n.Slug + "/",
 		})
 	}
 	if err := writeRSSFeed(
 		filepath.Join(outDir, "notes", "feed.xml"),
-		"jonwear.com - Notes",
-		siteURL+"/notes/",
-		"Quick reference notes from jonwear.com",
+		siteCfg.Name+" - Notes",
+		siteCfg.URL+"/notes/",
+		"Quick reference notes from "+siteCfg.Name,
 		noteRSSItems,
 	); err != nil {
 		log.Fatalf("write notes RSS: %v", err)
@@ -720,15 +809,16 @@ func main() {
 		homeItems = append(homeItems, it)
 	}
 	writeList(listTpl, filepath.Join(outDir, "index.html"), listView{
-		Title:    "jonwear.com",
-		Subtitle: "jon@jonwear.com",
+		Site:     siteCfg,
+		Title:    siteCfg.Name,
+		Subtitle: siteCfg.AuthorEmail,
 		Items:    homeItems,
 	})
 
 	// Generate 404 page
 	tpl404 := mustTemplate(filepath.Join(root, "templates", "404.html.tmpl"))
 	buf404 := new(bytes.Buffer)
-	if err := tpl404.Execute(buf404, nil); err != nil {
+	if err := tpl404.Execute(buf404, struct{ Site SiteConfig }{Site: siteCfg}); err != nil {
 		log.Fatalf("render 404: %v", err)
 	}
 	if err := os.WriteFile(filepath.Join(outDir, "404.html"), buf404.Bytes(), 0o644); err != nil {

@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{template "feeds"}}
-    {{template "webmention"}}
+    {{template "webmention" .}}
     {{template "styles"}}
     {{template "favicons"}}
     <link rel="manifest" href="/site.webmanifest?v=2">
@@ -15,17 +15,19 @@
     <!-- Open Graph -->
     <meta property="og:type" content="article">
     <meta property="og:title" content="{{ .Title }}">
-    <meta property="og:url" content="https://jonwear.com/notes/{{ .Slug }}/">
-    <meta property="og:site_name" content="jonwear.com">
-    <meta property="og:image" content="https://jonwear.com/images/og-default.png">
+    <meta property="og:url" content="{{ .Site.URL }}/notes/{{ .Slug }}/">
+    <meta property="og:site_name" content="{{ .Site.Name }}">
+    <meta property="og:image" content="{{ .Site.URL }}{{ .Site.DefaultOGImage }}">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ .Title }}">
-    <meta name="twitter:image" content="https://jonwear.com/images/og-default.png">
+    <meta name="twitter:image" content="{{ .Site.URL }}{{ .Site.DefaultOGImage }}">
 
     <!-- Fediverse -->
-    <meta name="fediverse:creator" content="@Jon@route66.social">
+    {{- if .Site.AuthorFediverse }}
+    <meta name="fediverse:creator" content="{{ .Site.AuthorFediverse }}">
+    {{- end }}
 
 </head>
 <body>
@@ -38,7 +40,7 @@
       <article class="h-entry">
       <header>
         <h1 class="p-name">{{ .Title }}</h1>
-        <p class="byline">By <a class="p-author h-card" href="https://jonwear.com"><img class="u-photo" src="/images/jon2.webp" alt="{{ .Author.Name }}" style="display:none"><span class="p-name">{{ .Author.Name }}</span></a> · <time class="dt-published" datetime="{{ .Date }}">{{ .DateHuman }}</time></p>
+        <p class="byline">By <a class="p-author h-card" href="{{ .Site.URL }}"><img class="u-photo" src="{{ .Site.AuthorPhoto }}" alt="{{ .Author.Name }}" style="display:none"><span class="p-name">{{ .Author.Name }}</span></a> · <time class="dt-published" datetime="{{ .Date }}">{{ .DateHuman }}</time></p>
         {{- if .Source }}
         <p class="source">Source: {{ if isURL .Source }}<a href="{{ deref .Source }}">{{ deref .Source }}</a>{{ else }}{{ deref .Source }}{{ end }}</p>
         {{- end }}
