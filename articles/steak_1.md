@@ -13,7 +13,6 @@ hero:
   alt: Cooking Steak
 css: /css/retro-sci-fi.css
 draft: false
-reading_time_min: 2
 ---
 
 Continuing with our recipe series, let's go on to one of my favorite meals, the Rib-eye Steak.  There are gobs of videos and articles about the best way to cook a steak.  For me, the best way to cook it is one that doesn't require lots of time, doesn't make a mess and tastes great.  Here's what I've landed on.

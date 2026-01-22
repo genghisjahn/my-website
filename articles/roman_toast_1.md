@@ -13,7 +13,6 @@ hero:
   alt: Frech Toast Ingredients
 css: /css/retro-sci-fi.css
 draft: false
-reading_time_min: 2
 ---
 
 Just to get in the habit of posting again I'm going to post some recipes that I (and the kids) like.  I'm usually looking these up and can never quite remember where I store them, so now I have content and a recipe hub.  You can find a variety of these "Roman French Toast" recipes on YouTube, but here's how I do it:

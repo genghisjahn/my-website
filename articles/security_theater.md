@@ -1,6 +1,6 @@
 ---
 slug: security-theater
-title: Security Theater
+title: Security Theater On My TI-99/4A
 date: 2026-01-09
 author:
   name: Jon Wear
@@ -13,6 +13,5 @@ hero:
   alt: Security Theater
 css: /css/retro-sci-fi.css
 draft: true
-reading_time_min: 2
 ---
 
