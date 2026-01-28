@@ -1,6 +1,6 @@
 ---
 slug: security-theater
-title: Security Theater On My TI-99/4A
+title: Security Theater
 date: 2026-01-27
 author:
   name: Jon Wear
