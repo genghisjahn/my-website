@@ -13,7 +13,6 @@ hero:
   alt: Site Updates
 css: /css/retro-sci-fi.css
 draft: false
-reading_time_min: 2
 ---
 
 I've read a lot about how blogging can be helpful to one's career, as well as enjoyable in and of itself.  I have no idea who's reading this because I don't have Google Analytics on here or any other analytics ([Website Privacy Report](https://pro.nixondigital.io/preview/jonwear.com)).  I did just add [_web mentions_](https://en.wikipedia.org/wiki/Webmention) using [webmention.io](https://webmention.io) so I guess there is some tracking, but that's only for users who explicitly reference my content, or I reference theirs.

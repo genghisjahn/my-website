@@ -15,7 +15,6 @@ hero:
   alt: Corridor lights
 css: /css/retro-sci-fi.css
 draft: false
-reading_time_min: 2
 ---
 
 This is my first article using my own static blog engine. I'd been using Hugo for quite some time, but I'd go so long between posts that by the time I wanted to post again my templates wouldn't build on Netlify. I thought about going all local with Hugo, but then when trying to select a template I kept coming across templates that didn't work or needed so many other dependencies just to build and then there's just learning all the Hugo stuff.

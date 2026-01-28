@@ -13,7 +13,6 @@ hero:
   alt: Corridor lights
 css: /css/retro-sci-fi.css
 draft: false
-reading_time_min: 2
 ---
 
 Where was I? Oh yes. My super simple/fast web server was working. My content was building, it was rendering just like I wanted. Then I asked for a script that would copy the server binary from my local machine to... the server. And it took 4-Evah!

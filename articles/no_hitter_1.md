@@ -15,7 +15,6 @@ hero:
   alt: no-hitters
 css: /css/retro-sci-fi.css
 draft: false
-reading_time_min: 2
 ---
 
 Baseball is a fun sport to play with from a data modeling point of view because there are so many numbers associated with each game and there are over 150 seasons of baseball stats to look over.  A single season has 2,430 individual games.  That's at least 131,220 plate appearances per season and don't get me started on the number of pitches, swings, foulballs, etc there are in addition.  But let's get to the point, the no-hitter.  

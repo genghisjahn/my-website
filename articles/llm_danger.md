@@ -13,7 +13,6 @@ hero:
   alt: LLM Danger
 css: /css/retro-sci-fi.css
 draft: false
-reading_time_min: 2
 ---
 
 I use LLMs a lot.  I have a paid subscription to OpenAIs chatGPT, Anthropic's Claude Code and an Ollama cloud server.  They are fantastic tools.  They've certainly helped me ship more code.  I've also learned way more about the tech stacks I use.  The more I learn the more I realize how silly it is to call myself a _senior_ developer.  There are just so many turtles.  Anyway, let's get to the danger stuff.  Before I go on, this isn't a piece about how LLM's will ruin us or humanity or any of that stuff.  Ultimatley it's a cautionary take.

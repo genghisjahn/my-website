@@ -13,7 +13,6 @@ hero:
   alt: Corridor lights
 css: /css/retro-sci-fi.css
 draft: false
-reading_time_min: 2
 ---
 
 First off, let's so some *basic* things with text to see if **markdown** renders it correctly.  So far so good.  I'll put that in <u>underline</u>? I want to see what we can ~~strike out~~.  Lastly, I want to see if we can do a link and or an image.  The link will be to [jonwear.com](https://jonwear.com) and the image will be <img src="/images/hero2.png" alt="hero image" width="400">.
