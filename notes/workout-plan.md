@@ -79,29 +79,42 @@ Purpose: maintain habit and circulation.
 # STRENGTH DAYS (TR)
 
 ## Current Strength Pattern
-- Pyramid ladders
-- Exercises:
-  - Pull-ups
-  - Weighted squats
-  - Push-ups
-  - Planks (seconds)
-- Current re-entry pyramid:
-  - **1–5–1** (up to 5, then back down)
+
+**Pyramid ladders**
+
+Exercises:
+- Pull-ups  
+- Weighted squats  
+- Push-ups  
+- Planks (seconds)
+
+Current ladder:
+- **1–5–1** (up to 5, then back down)  
+- Progressing toward **1–6–1** over time
 
 ---
 
 ## Level 1 — Full Strength Session (Ideal)
-- Full pyramid for all movements
+
+- Complete the **full planned ladder** for all movements  
+  (e.g. 1–5–1, progressing to 1–6–1)
 - Controlled pace
-- Stop if form degrades
+- Normal rest between sets
+- Stop immediately if form degrades
+
+This is the session that drives primary strength progress.
 
 ---
 
-## Level 2 — Half Session (Highly Acceptable)
-- **One full pyramid only**
-- Stop after completing the descent
+## Level 2 — Anchor Strength Session (Highly Acceptable)
 
-This is still meaningful training.
+- Complete a **reduced ladder** for all movements  
+  (e.g. **1–3–1 or 1–4–1**)
+- Slower pace and/or longer rest as needed
+- Stop immediately after completing the descent
+
+This preserves consistency and movement quality while reducing total load.
+It still counts as meaningful training.
 
 ---
 
