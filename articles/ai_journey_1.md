@@ -41,7 +41,7 @@ During these initial phases of LLM experimenting I had a lot of work to do with 
   1. Detail list of all the books in that series, 
   1. Fully functioning comic book reader that would let you tap to zoom each panel.  You could view page by page or a smoothly transitioning panel by panel.  
   
-  I had to help chatGPT with the math for the zooming, but it wrote almost all of it.  
+  I helped chatGPT with the math for the zooming, but it wrote almost all of it.  
 
   Where did the coordinates for the panels on the page come from?  I copy/pasted my way with chatGPT to create a panelizer web tool.  Where did the comic books come from?  I had chatGPT make images and the first few pages for three made up series, R0V3R the Space Dog, Samurai Susan and Bill the Bug Hunter.  Yep, copy/pasting from chatGPT into XCode and VS Code gave me some really helpful tools.  I had to keep the files small because the context windows weren't that big and the files had _NO_ knowledge of each other so that was something I had to keep in mind, but it all worked and it all worked way faster than it would have had I written it all myself.  The only thing I paid for was the $20/month subscription to OpenAI. I got a universal(iPhone/iPad) comic book app, a panelizer tool for images and all the fake data I needed.
 
