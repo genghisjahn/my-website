@@ -11,7 +11,7 @@ tags:
   - name: chatGPT
     slug: chatGPT
 hero:
-  src: /images/ai_part_1.png
+  src: /images/hero_article_5a.png
   alt: AI Part 1
 css: /css/retro-sci-fi.css
 draft: false
@@ -23,10 +23,10 @@ I realized I could at least attempt to use chatGPT to code when I was able to ty
 
 During these initial phases of LLM coding I had a lot of work to do with DynamoDB and Go.  At the time (this would've been mid 2023) The documentation around it wasn't great.  There were SDKs but the best ones were built for other languages.  So I would literally take small sections of code, paste into ChatGPT along with whatever error messages I was getting and then...boom, a fix appeared.  I was very nervous about using code that I didn't write.  But most of the time it worked.  In those early days chatGPT would sometimes reference modules that I did not use and I'd have to say, "No, use this or that module that's already in the project."  Sometimes it would reference modules that did not exist.  That was rough because I'd think, "Oh someone already solved that problem!  Great I can import...oh...this is what the module _might_ be called if someone ever gets around to making it :(.  But this approach helped a lot.  
 
-  * Copy from VS Code
-  * Paste to chatGPT, get a result
-  * Copy from chatGPT
-  * Paste to VS Code  
+  1. Copy from VS Code
+  1. Paste to chatGPT, get a result
+  1. Copy from chatGPT
+  1. Paste to VS Code  
   
   Smashed a lot of bugs really fast.  But that was about the extent of what I did.  It was small code changes that saved me a trip to Stack Overflow, only they were written to _my exact problem_ rather than one sort of like it.
 
@@ -44,9 +44,9 @@ During these initial phases of LLM coding I had a lot of work to do with DynamoD
   Here are the covers:
 
 <div style="display:flex; gap:10px;">
-  <img src="../images/cover_r0v3r.png" style="width:30%;" alt="desc2">
-  <img src="../images/ss_cover_2.png" style="width:30%;" alt="desc3">
-  <img src="../images/bbh_cover_1.png" style="width:30%;" alt="desc1">
+  <img src="/images/cover_r0v3r.png" style="width:30%;" alt="desc2">
+  <img src="/images/ss_cover_2.png" style="width:30%;" alt="desc3">
+  <img src="/images/bbh_cover_1.png" style="width:30%;" alt="desc1">
 </div>
 
 
