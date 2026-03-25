@@ -14,12 +14,7 @@ html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 ui-monospa
   background:linear-gradient(180deg,#0b1030 0%,#0a0e1a 100%);
   box-shadow:0 0 0 2px #0b1030, 0 20px 60px rgba(0,0,0,.6);
 }
-.crt::before{
-  content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;
-  background:
-    repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0 1px, transparent 1px 3px),
-    repeating-linear-gradient(90deg, rgba(0,255,240,.045) 0 2px, rgba(255,52,210,.045) 2px 4px, rgba(215,234,255,.03) 4px 6px);
-}
+.crt::before{display:none}
 header{padding:28px 22px 10px;background:
   radial-gradient(1200px 300px at 10% -20%, rgba(0,255,240,.22), transparent 60%),
   radial-gradient(900px 260px at 100% -10%, rgba(255,52,210,.18), transparent 60%)}
