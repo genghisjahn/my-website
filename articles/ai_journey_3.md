@@ -14,7 +14,7 @@ hero:
   src: /images/hero_article_7.png
   alt: AI Part 3
 css: /css/retro-sci-fi.css
-draft: false
+draft: true
 ---
 
 
