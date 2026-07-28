@@ -17,7 +17,7 @@ css: /css/retro-sci-fi.css
 draft: false
 ---
 
-I could have continued copy/pasting my way through more software projects, but surely there was a better way.  And there was!  Turned out that OpenAI had a ChatGPT plugin for Visual Studio that gave you a little chatGPT window that could actually _see_ your code and update it while you watched.  This was great!  It actually took me closer to what I wanted because I could see it update my code right away in an environment I was very used to working in. I felt like I was flying.  I'd just code along and if I came to something I wasn't sure about or a bug that seemed particularly nasty, I highlighted the text and it would come up with a change (not always a fix) and ask if I wanted to apply it.  It looked something like this:
+I could have continued copy/pasting my way through more software projects, but I felt like there had to be a better way.  And there was!  Turned out that OpenAI had a ChatGPT plugin for Visual Studio that gave you a little chatGPT window that could actually _see_ your code and update it while you watched.  This was great!  It actually took me closer to what I wanted because I could see it update my code right away in an environment I was very used to working in. I felt like I was flying.  I'd just code along and if I came to something I wasn't sure about or a bug that seemed particularly nasty, I highlighted the text and it would come up with a change (not always a fix) and ask if I wanted to apply it.  It looked something like this:
 
 <img src="/images/vs_plugin1.png" style="width:80%;" alt="desc2">
 
