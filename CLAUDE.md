@@ -11,11 +11,9 @@ go run ./cmd/build
 # Run local development server (serves public/ on port 8080)
 go run ./cmd/serve
 
-# Full deploy (build + WebP conversion + rsync to server)
+# Deploy to server01 (build + WebP conversion + server binary + rsync + systemd restart)
+# Main branch only; the unit is deploy/mywebsite.service, listening on 127.0.0.1:8093
 ./deploy.sh
-
-# Deploy just the server binary (rebuilds and restarts remote Go server)
-./server_deploy.sh
 ```
 
 ## Architecture

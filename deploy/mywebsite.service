@@ -1,0 +1,58 @@
+[Unit]
+Description=mywebsite — static server for the generated site in public/
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+
+# Not root. This reads files and answers GETs, binds a port above 1024, and
+# writes nothing anywhere — the same case onesheet.service makes.
+User=mywebsite
+Group=mywebsite
+
+# /srv, not /root: /root is mode 0700 and ProtectHome=true hides it anyway.
+# css/ and images/ live inside public/ after a build, so all three flags point
+# into the same tree.
+WorkingDirectory=/srv/mywebsite
+ExecStart=/srv/mywebsite/site_server \
+    -addr 127.0.0.1:8093 \
+    -public /srv/mywebsite/public \
+    -css /srv/mywebsite/public/css \
+    -images /srv/mywebsite/public/images
+Restart=on-failure
+RestartSec=5
+
+# --- Hardening -------------------------------------------------------------
+#
+# Same set as onesheet.service. Static serving needs no hole in
+# ProtectSystem=strict and no ReadWritePaths: root owns /srv/mywebsite and the
+# service account only has group read, so the service cannot rewrite its own
+# binary or the pages it serves. Logs go to the journal, not a file.
+
+NoNewPrivileges=true
+PrivateTmp=true
+CapabilityBoundingSet=
+
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+ProtectKernelLogs=true
+ProtectClock=true
+ProtectHostname=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+RestrictRealtime=true
+LockPersonality=true
+RemoveIPC=true
+PrivateDevices=true
+ProtectProc=invisible
+ProcSubset=pid
+
+# Loopback only. cloudflared reaches it on 127.0.0.1:8093; nothing else should.
+RestrictAddressFamilies=AF_INET AF_INET6
+
+[Install]
+WantedBy=multi-user.target
